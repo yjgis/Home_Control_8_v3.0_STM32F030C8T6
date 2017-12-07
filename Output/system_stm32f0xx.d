@@ -9,3 +9,5 @@
 ..\output\system_stm32f0xx.o: ..\Lib\inc\stm32f0xx_gpio.h
 ..\output\system_stm32f0xx.o: F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include\stm32f0xx.h
 ..\output\system_stm32f0xx.o: ..\Lib\inc\stm32f0xx_rcc.h
+..\output\system_stm32f0xx.o: ..\Lib\inc\stm32f0xx_usart.h
+..\output\system_stm32f0xx.o: ..\Lib\inc\stm32f0xx_misc.h

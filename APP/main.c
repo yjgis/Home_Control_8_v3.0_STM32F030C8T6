@@ -9,7 +9,12 @@
 
 #include "stm32f0xx.h"
 #include "bsp_led.h"
+#include "bsp_usart.h"
+#include "bsp_SysTick.h"
 
+Data Rx;
+
+uint8_t ttt[6]={0x01,0x02,0x03,0x04,0x05};
 /**********************************************/
 /* 函数功能；简单的延迟函数                   */
 /* 入口参数：无                               */
@@ -28,12 +33,19 @@ void delay()
 /**********************************************/
 int main(void)
 {
+	delay();
+	
+	SysTick_Init();
 	LED_Init();
+	USART1_Init();
+	
+	GPIO_SetBits(GPIOF,GPIO_Pin_4);
+	uart_puts("Fresh Persimmon all right reserved!");
+	GPIO_ResetBits(GPIOF,GPIO_Pin_4);
+	
 	while(1)
 	{
-		LED_Open();//打开led灯
-		delay();
-		LED_Close();//关掉led灯
-    delay();		
+Delay_ms(500);		
+		LED1_Toggle();
 	}
 }

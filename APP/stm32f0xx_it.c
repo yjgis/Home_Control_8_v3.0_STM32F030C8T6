@@ -29,7 +29,12 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f0xx_it.h"
+#include "bsp_usart.h"
+#include "bsp_led.h"
+#include "bsp_SysTick.h"
 
+extern Data Rx;
+extern uint8_t ttt[6];
 /** @addtogroup STM32F0-Discovery_Demo
   * @{
   */
@@ -97,8 +102,19 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
-
+	TimingDelay_Decrement();	
 }
+
+//void USART1_IRQHandler(void)
+//{
+//	uint8_t ch;
+//  if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
+//  {
+//		ch=USART_ReceiveData(USART1);
+//LED1_Toggle();
+//  }
+//}
+
 
 /******************************************************************************/
 /*                 STM32F0xx Peripherals Interrupt Handlers                   */
@@ -112,6 +128,20 @@ void SysTick_Handler(void)
   * @param  None
   * @retval None
   */
+
+void USART1_IRQHandler(void)
+{
+//	uint8_t ch;
+  if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
+  {
+          ttt[5]=USART_ReceiveData(USART1);
+		 LED1_Toggle();
+ USART1_Send_Data(ttt,6);
+  }
+}
+
+
+
 /*void PPP_IRQHandler(void)
 {
 }*/
@@ -123,5 +153,9 @@ void SysTick_Handler(void)
 /**
   * @}
   */
+
+
+
+
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

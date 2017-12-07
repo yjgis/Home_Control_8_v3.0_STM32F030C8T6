@@ -369,7 +369,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F0XX,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\APP;..\Bsp;..\Lib\inc;..\Lib\src</IncludePath>
+              <IncludePath>..\APP;..\Bsp;..\Lib\inc;..\Lib\src;..\Bsp\Led;..\Bsp\SysTick;..\Bsp\usart1</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -440,12 +440,32 @@
             <File>
               <FileName>bsp_led.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Bsp\bsp_led.c</FilePath>
+              <FilePath>..\Bsp\Led\bsp_led.c</FilePath>
             </File>
             <File>
               <FileName>bsp_led.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\Bsp\bsp_led.h</FilePath>
+              <FilePath>..\Bsp\Led\bsp_led.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Bsp\usart1\bsp_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_usart.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Bsp\usart1\bsp_usart.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_SysTick.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Bsp\SysTick\bsp_SysTick.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_SysTick.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Bsp\SysTick\bsp_SysTick.h</FilePath>
             </File>
           </Files>
         </Group>

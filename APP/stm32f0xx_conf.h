@@ -49,9 +49,9 @@
 /*#include "stm32f0xx_rtc.h" */
 /*#include "stm32f0xx_spi.h"*/
 /*#include "stm32f0xx_tim.h"*/
-/*#include "stm32f0xx_usart.h" */
+#include "stm32f0xx_usart.h"
 /*#include "stm32f0xx_wwdg.h" */
-/*#include "stm32f0xx_misc.h" */ /* High level functions for NVIC and SysTick (add-on to CMSIS functions) */
+#include "stm32f0xx_misc.h" /* High level functions for NVIC and SysTick (add-on to CMSIS functions) */
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
