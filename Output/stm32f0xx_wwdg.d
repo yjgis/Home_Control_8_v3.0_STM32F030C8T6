@@ -10,5 +10,6 @@
 ..\output\stm32f0xx_wwdg.o: ..\Lib\inc\stm32f0xx_gpio.h
 ..\output\stm32f0xx_wwdg.o: F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include\stm32f0xx.h
 ..\output\stm32f0xx_wwdg.o: ..\Lib\inc\stm32f0xx_rcc.h
+..\output\stm32f0xx_wwdg.o: ..\Lib\inc\stm32f0xx_tim.h
 ..\output\stm32f0xx_wwdg.o: ..\Lib\inc\stm32f0xx_usart.h
 ..\output\stm32f0xx_wwdg.o: ..\Lib\inc\stm32f0xx_misc.h

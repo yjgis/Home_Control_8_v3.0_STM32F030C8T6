@@ -11,41 +11,46 @@
 #include "bsp_led.h"
 #include "bsp_usart.h"
 #include "bsp_SysTick.h"
+#include <string.h>
+#include "bsp_relay.h"
+#include "bsp_io.h"
+#include "bsp_timer3.h"
 
-Data Rx;
+
+
+
+Receive Rx={0};
 
 uint8_t ttt[6]={0x01,0x02,0x03,0x04,0x05};
-/**********************************************/
-/* 函数功能；简单的延迟函数                   */
-/* 入口参数：无                               */
-/**********************************************/
-void delay()
-{
-	int i,j;
-  for(i=0;i<1000;i++)
-	  {
-			for(j=0;j<1000;j++);
-		}
-}
+
 /**********************************************/
 /* 函数功能；主函数                           */
 /* 入口参数：无                               */
 /**********************************************/
 int main(void)
-{
-	delay();
-	
+{	
 	SysTick_Init();
+	Timer_Init();
 	LED_Init();
 	USART1_Init();
-	
-	GPIO_SetBits(GPIOF,GPIO_Pin_4);
-	uart_puts("Fresh Persimmon all right reserved!");
-	GPIO_ResetBits(GPIOF,GPIO_Pin_4);
-	
+	IO_Init();
+	IO_Switch();
+	Addr_Switch_Init();
 	while(1)
 	{
-Delay_ms(500);		
-		LED1_Toggle();
+		Addr_Switch_Scan();
+    IO_Switch_Scan();
+    IO_Trigger_Scan(); 	
+		if(Rx.Flag)
+		{
+		  Rx.Flag=0;
+			Analyse_Received_Buffer(Rx.Buffer,Rx.Cont);
+		  memset(Rx.Buffer,0,20);
+		}
+		
+		
+		
+//Delay_ms(500);		
+//		LED1_Toggle();
 	}
 }

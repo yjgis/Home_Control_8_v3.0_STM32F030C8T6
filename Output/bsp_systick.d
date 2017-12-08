@@ -10,5 +10,6 @@
 ..\output\bsp_systick.o: ..\Lib\inc\stm32f0xx_gpio.h
 ..\output\bsp_systick.o: F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include\stm32f0xx.h
 ..\output\bsp_systick.o: ..\Lib\inc\stm32f0xx_rcc.h
+..\output\bsp_systick.o: ..\Lib\inc\stm32f0xx_tim.h
 ..\output\bsp_systick.o: ..\Lib\inc\stm32f0xx_usart.h
 ..\output\bsp_systick.o: ..\Lib\inc\stm32f0xx_misc.h

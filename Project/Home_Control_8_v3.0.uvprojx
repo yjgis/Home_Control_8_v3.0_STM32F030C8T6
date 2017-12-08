@@ -369,7 +369,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F0XX,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\APP;..\Bsp;..\Lib\inc;..\Lib\src;..\Bsp\Led;..\Bsp\SysTick;..\Bsp\usart1</IncludePath>
+              <IncludePath>..\APP;..\Bsp;..\Lib\inc;..\Lib\src;..\Bsp\Led;..\Bsp\SysTick;..\Bsp\usart1;..\Bsp\crc;..\Bsp\IO;..\Bsp\Relay;..\Bsp\timer</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -466,6 +466,46 @@
               <FileName>bsp_SysTick.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Bsp\SysTick\bsp_SysTick.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_crc8.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Bsp\crc\bsp_crc8.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_crc8.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Bsp\crc\bsp_crc8.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_io.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Bsp\IO\bsp_io.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_io.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Bsp\IO\bsp_io.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_relay.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Bsp\Relay\bsp_relay.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_relay.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Bsp\Relay\bsp_relay.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_timer3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Bsp\timer\bsp_timer3.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_timer3.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Bsp\timer\bsp_timer3.h</FilePath>
             </File>
           </Files>
         </Group>

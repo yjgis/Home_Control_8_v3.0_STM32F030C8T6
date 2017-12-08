@@ -32,8 +32,11 @@
 #include "bsp_usart.h"
 #include "bsp_led.h"
 #include "bsp_SysTick.h"
+#include <string.h>
+#include "bsp_timer3.h"
 
-extern Data Rx;
+
+extern Receive Rx;
 extern uint8_t ttt[6];
 /** @addtogroup STM32F0-Discovery_Demo
   * @{
@@ -129,15 +132,68 @@ void SysTick_Handler(void)
   * @retval None
   */
 
+uint8_t rx_temp[20]={0};
+uint8_t rx_cnt=0;
+
 void USART1_IRQHandler(void)
 {
-//	uint8_t ch;
   if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
   {
-          ttt[5]=USART_ReceiveData(USART1);
+		
+		rx_temp[rx_cnt++]=USART_ReceiveData(USART1);
+		
+		 if(rx_temp[0]== 0xad)
+     {
+        if(rx_cnt == (rx_temp[2]+4))
+        {			
+					memcpy(Rx.Buffer,rx_temp,rx_cnt);
+					Rx.Cont=rx_cnt;
+					Rx.Flag=1;
+					
+//					 USART1_Send_Data(Rx.Buffer,Rx.Cont);
+					
+           memset(rx_temp,0,20);
+           rx_cnt=0;              
+         }
+         else if(rx_cnt > (rx_temp[2]+4))
+         {
+           rx_cnt=0;
+           memset(rx_temp,0,20);
+         }
+      }        
+      else
+      {
+         memset(rx_temp,0,20);
+         rx_cnt=0;  
+      }
+		
+		
+		
+//          ttt[5]=USART_ReceiveData(USART1);
 		 LED1_Toggle();
- USART1_Send_Data(ttt,6);
+// USART1_Send_Data(ttt,6);
   }
+}
+
+
+void TIM3_IRQHandler(void)
+{	
+	if(TIM_GetITStatus(TIM3,TIM_IT_Update)!=RESET)
+	{ 
+	  TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
+		
+		if(Device_State==Online)
+		{
+		  Timer_Cnt++;
+			if(Timer_Cnt>5)
+		  {
+			  Device_State=Offline;
+				Timer_Cnt=0;
+			}
+		}
+	}
+	
+	LED1_Toggle();
 }
 
 

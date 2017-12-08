@@ -10,5 +10,11 @@
 ..\output\bsp_usart.o: ..\Lib\inc\stm32f0xx_gpio.h
 ..\output\bsp_usart.o: F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include\stm32f0xx.h
 ..\output\bsp_usart.o: ..\Lib\inc\stm32f0xx_rcc.h
+..\output\bsp_usart.o: ..\Lib\inc\stm32f0xx_tim.h
 ..\output\bsp_usart.o: ..\Lib\inc\stm32f0xx_usart.h
 ..\output\bsp_usart.o: ..\Lib\inc\stm32f0xx_misc.h
+..\output\bsp_usart.o: ..\Bsp\crc\bsp_crc8.h
+..\output\bsp_usart.o: ..\Bsp\IO\bsp_io.h
+..\output\bsp_usart.o: ..\Bsp\Relay\bsp_relay.h
+..\output\bsp_usart.o: F:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\output\bsp_usart.o: ..\Bsp\timer\bsp_timer3.h
