@@ -12,7 +12,7 @@ typedef struct IO
 
 #define Tirgger        0
 
-extern uint8_t IO_Switch_Temp[6];
+extern uint8_t IO_Switch_Temp[8];
 extern uint8_t IO_Temp[2];
 
 void IO_Init(void);

@@ -9,10 +9,10 @@ uint8_t Relay_State=0;
 
 
 
-GPIO Relay_GPIO[4] ={{GPIOD, GPIO_Pin_7},
-                     {GPIOD, GPIO_Pin_4},
-                     {GPIOD, GPIO_Pin_3},
-                     {GPIOD, GPIO_Pin_2}};
+GPIO Relay_GPIO[4] ={{GPIOA, GPIO_Pin_8},
+                     {GPIOA, GPIO_Pin_11},
+                     {GPIOA, GPIO_Pin_12},
+                     {GPIOA, GPIO_Pin_15}};
 
 
 
@@ -47,13 +47,15 @@ void Relay_Init(void)
 {
 	uint8_t i=0;
 	GPIO_InitTypeDef GPIO_InitStruct;
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOD, ENABLE);
-  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_7 | GPIO_Pin_4 | GPIO_Pin_3 | GPIO_Pin_2  ;
+	
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+	
+  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_15;
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_OUT;
-  GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
+//  GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_InitStruct.GPIO_Speed =GPIO_Speed_Level_3;
-  GPIO_Init(GPIOD, &GPIO_InitStruct);
+  GPIO_Init(GPIOA, &GPIO_InitStruct);
   
   for(i=0;i<4;i++)
   {

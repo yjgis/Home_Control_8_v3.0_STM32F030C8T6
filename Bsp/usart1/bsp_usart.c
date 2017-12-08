@@ -7,12 +7,12 @@
 
 uint8_t RS485_Addr=0;
 uint8_t Device_State=Offline;
-GPIO RS485_Addr_GPIO[6] ={{GPIOC, GPIO_Pin_5},
-                          {GPIOC, GPIO_Pin_4},
-                          {GPIOC, GPIO_Pin_3},
-                          {GPIOC, GPIO_Pin_2},
-                          {GPIOC, GPIO_Pin_1},
-                          {GPIOF, GPIO_Pin_6}};
+GPIO RS485_Addr_GPIO[6] ={{GPIOA, GPIO_Pin_0},
+                          {GPIOA, GPIO_Pin_1},
+                          {GPIOA, GPIO_Pin_2},
+                          {GPIOA, GPIO_Pin_3},
+                          {GPIOA, GPIO_Pin_4},
+                          {GPIOA, GPIO_Pin_5}};
 
 
 
@@ -23,7 +23,6 @@ void USART1_Init(void)
 	USART_InitTypeDef  USART_InitStructure;
 	NVIC_InitTypeDef   NVIC_InitStructure;
 
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOF, ENABLE);	
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);	
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE );
 	
@@ -39,13 +38,13 @@ void USART1_Init(void)
   GPIO_Init(GPIOA, &GPIO_InitStructure);   
 
   //RS485_DIR ->PF4	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_4;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
   GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
   GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStructure.GPIO_PuPd=GPIO_PuPd_NOPULL;
   GPIO_InitStructure.GPIO_Speed =GPIO_Speed_50MHz;
   GPIO_Init(GPIOF, &GPIO_InitStructure);
-  GPIO_ResetBits(GPIOF,GPIO_Pin_4);
+  GPIO_ResetBits(GPIOA,GPIO_Pin_6);
 	
   USART_InitStructure.USART_BaudRate = Baud_Rate;//设置串口波特率
   USART_InitStructure.USART_WordLength = USART_WordLength_8b;//设置数据位
@@ -67,18 +66,12 @@ void USART1_Init(void)
 void Addr_Switch_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStruct;
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOF, ENABLE);
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
 	
-  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
+  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
 	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
-  GPIO_Init(GPIOC, &GPIO_InitStruct);	
-	
-	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_6;
-  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
-	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
-  GPIO_Init(GPIOF, &GPIO_InitStruct);	
+  GPIO_Init(GPIOA, &GPIO_InitStruct);	
 }
 
 

@@ -5,6 +5,15 @@
  * 描述    ：LED闪烁
  * 作者    ：青风
  * 店铺    ：qfv5.taobao.com
+ 
+        ADDR          485              USART              RELAY
+A0 A1 A2 A3 A4 A5      A6     A7       A9 A10          A8 A11 A12 A15
+
+       IO                          IO_SWITCH
+B0 B1 B2 B3 B4 B5 B6 B7    B8 B9 B10 B11 B12 B13 B14 B15
+
+C13 C14 C15
+ 
 **********************************************************************/
 
 #include "stm32f0xx.h"
@@ -32,6 +41,8 @@ int main(void)
 	SysTick_Init();
 	Timer_Init();
 	LED_Init();
+	
+  Relay_Init();
 	USART1_Init();
 	IO_Init();
 	IO_Switch();
