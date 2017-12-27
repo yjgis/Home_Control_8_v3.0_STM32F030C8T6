@@ -40,8 +40,8 @@ void LED_Init(void)
 /**********************************************/
 void LED_Open(void)
 {
-	 GPIO_ResetBits(LED1_PORT, LED1_PIN );
-	}
+	GPIO_ResetBits(LED1_PORT, LED1_PIN );
+}
 /**********************************************/
 /* 函数功能； 关掉led灯                        */
 /* 入口参数：无                               */
@@ -50,7 +50,6 @@ void LED_Close(void)
 {
 		GPIO_SetBits(LED1_PORT, LED1_PIN );
 }
-
 /**********************************************/
 /* 函数功能；led翻转                          */
 /* 入口参数：无                               */

@@ -15,5 +15,5 @@
 ..\output\bsp_io.o: ..\Lib\inc\stm32f0xx_misc.h
 ..\output\bsp_io.o: ..\Bsp\usart1\bsp_usart.h
 ..\output\bsp_io.o: ..\Bsp\Relay\bsp_relay.h
-..\output\bsp_io.o: ..\Bsp\SysTick\bsp_SysTick.h
 ..\output\bsp_io.o: F:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+..\output\bsp_io.o: ..\Bsp\timer\bsp_timer3.h

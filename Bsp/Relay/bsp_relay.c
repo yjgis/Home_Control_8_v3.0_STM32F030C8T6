@@ -3,16 +3,21 @@
 #include "string.h"
 #include "bsp_usart.h"
 
+/**********************************************************
+												 RELAY
+								    	B0 B1 B10 11
+**********************************************************/
+
 uint8_t Relay_Temp[4]={0};
 uint8_t Relay_State=0;
 
 
 
 
-GPIO Relay_GPIO[4] ={{GPIOA, GPIO_Pin_8},
-                     {GPIOA, GPIO_Pin_11},
-                     {GPIOA, GPIO_Pin_12},
-                     {GPIOA, GPIO_Pin_15}};
+GPIO Relay_GPIO[4] ={{GPIOB, GPIO_Pin_0},
+                     {GPIOB, GPIO_Pin_1},
+                     {GPIOB, GPIO_Pin_10},
+                     {GPIOB, GPIO_Pin_11}};
 
 
 
@@ -50,12 +55,12 @@ void Relay_Init(void)
 	
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
 	
-  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_15;
+  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_10 | GPIO_Pin_11;
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_OUT;
 //  GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_InitStruct.GPIO_Speed =GPIO_Speed_Level_3;
-  GPIO_Init(GPIOA, &GPIO_InitStruct);
+  GPIO_Init(GPIOB, &GPIO_InitStruct);
   
   for(i=0;i<4;i++)
   {

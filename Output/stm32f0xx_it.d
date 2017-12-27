@@ -15,6 +15,5 @@
 ..\output\stm32f0xx_it.o: ..\Lib\inc\stm32f0xx_misc.h
 ..\output\stm32f0xx_it.o: ..\Bsp\usart1\bsp_usart.h
 ..\output\stm32f0xx_it.o: ..\Bsp\Led\bsp_led.h
-..\output\stm32f0xx_it.o: ..\Bsp\SysTick\bsp_SysTick.h
 ..\output\stm32f0xx_it.o: F:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\output\stm32f0xx_it.o: ..\Bsp\timer\bsp_timer3.h

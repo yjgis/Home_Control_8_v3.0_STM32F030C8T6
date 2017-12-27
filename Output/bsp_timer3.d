@@ -13,3 +13,4 @@
 ..\output\bsp_timer3.o: ..\Lib\inc\stm32f0xx_tim.h
 ..\output\bsp_timer3.o: ..\Lib\inc\stm32f0xx_usart.h
 ..\output\bsp_timer3.o: ..\Lib\inc\stm32f0xx_misc.h
+..\output\bsp_timer3.o: ..\Bsp\usart1\bsp_usart.h

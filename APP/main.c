@@ -6,20 +6,17 @@
  * 作者    ：青风
  * 店铺    ：qfv5.taobao.com
  
-        ADDR          485              USART              RELAY
-A0 A1 A2 A3 A4 A5      A6     A7       A9 A10          A8 A11 A12 A15
+     485-Addr               USART              RELAY
+B12 B13 B14 B15 A8 A11     A9 A10          B0 B1 B10 11
 
        IO                          IO_SWITCH
-B0 B1 B2 B3 B4 B5 B6 B7    B8 B9 B10 B11 B12 B13 B14 B15
-
-C13 C14 C15
+A15 B3 B4 B5 B6 B7 B8 C13    B9 C14 C15 A7 A6 A5 A4 A3
  
 **********************************************************************/
 
 #include "stm32f0xx.h"
 #include "bsp_led.h"
 #include "bsp_usart.h"
-#include "bsp_SysTick.h"
 #include <string.h>
 #include "bsp_relay.h"
 #include "bsp_io.h"
@@ -29,16 +26,13 @@ C13 C14 C15
 
 
 Receive Rx={0};
-
-uint8_t ttt[6]={0x01,0x02,0x03,0x04,0x05};
-
+uint8_t Buffer[5]={0x01,0x02,0x03,0x04,0x05};
 /**********************************************/
 /* 函数功能；主函数                           */
 /* 入口参数：无                               */
 /**********************************************/
 int main(void)
 {	
-	SysTick_Init();
 	Timer_Init();
 	LED_Init();
 	
@@ -51,17 +45,6 @@ int main(void)
 	{
 		Addr_Switch_Scan();
     IO_Switch_Scan();
-    IO_Trigger_Scan(); 	
-		if(Rx.Flag)
-		{
-		  Rx.Flag=0;
-			Analyse_Received_Buffer(Rx.Buffer,Rx.Cont);
-		  memset(Rx.Buffer,0,20);
-		}
-		
-		
-		
-//Delay_ms(500);		
-//		LED1_Toggle();
+    IO_Trigger_Scan();
 	}
 }

@@ -1,8 +1,8 @@
 #include "bsp_io.h"
 #include "bsp_usart.h"
 #include "bsp_relay.h"
-#include "bsp_SysTick.h"
 #include "string.h"
+#include "bsp_timer3.h"
 //#include "bsp_timer.h"
 
 uint8_t IO_Switch_Temp[8]={0};
@@ -10,45 +10,70 @@ uint8_t IO_Trigger_Temp[8]={0};
 uint8_t IO_Temp[2]={0};
 
 
-GPIO IO_Switch_GPIO[8]={{GPIOB, GPIO_Pin_8},
-                        {GPIOB, GPIO_Pin_9},
-                        {GPIOB, GPIO_Pin_10},
-                        {GPIOB, GPIO_Pin_11},
-                        {GPIOB, GPIO_Pin_12},
-												{GPIOB, GPIO_Pin_13},
-												{GPIOB, GPIO_Pin_14},
-                        {GPIOB, GPIO_Pin_15}};
+GPIO IO_Switch_GPIO[8]={{GPIOB, GPIO_Pin_9},
+                        {GPIOC, GPIO_Pin_14},
+                        {GPIOC, GPIO_Pin_15},
+                        {GPIOA, GPIO_Pin_7},
+                        {GPIOA, GPIO_Pin_6},
+												{GPIOA, GPIO_Pin_5},
+												{GPIOA, GPIO_Pin_4},
+                        {GPIOA, GPIO_Pin_3}};
 
-GPIO IO_Trigger_GPIO[8]={{GPIOB, GPIO_Pin_0},
-                         {GPIOB, GPIO_Pin_1},
-                         {GPIOB, GPIO_Pin_2},
+GPIO IO_Trigger_GPIO[8]={{GPIOA, GPIO_Pin_15},
                          {GPIOB, GPIO_Pin_3},
                          {GPIOB, GPIO_Pin_4},
-												 {GPIOB, GPIO_Pin_5},
-												 {GPIOB, GPIO_Pin_6},
-                         {GPIOB, GPIO_Pin_7}};
+                         {GPIOB, GPIO_Pin_5},
+                         {GPIOB, GPIO_Pin_6},
+												 {GPIOB, GPIO_Pin_7},
+												 {GPIOB, GPIO_Pin_8},
+                         {GPIOC, GPIO_Pin_13}};
 
 
+												 							 
 void IO_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStruct;
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
+  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
 	
-	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2| GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_15;
+  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
+	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+  GPIO_Init(GPIOA, &GPIO_InitStruct);		
+	
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5| GPIO_Pin_6 | GPIO_Pin_7 | GPIO_Pin_8;
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
 	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_Init(GPIOB, &GPIO_InitStruct);	
+	
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_13;
+  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
+	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+  GPIO_Init(GPIOC, &GPIO_InitStruct);			
 }
 
-void IO_Switch(void)
+void IO_Switch (void)
 {
 	GPIO_InitTypeDef GPIO_InitStruct;
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);	
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
-		
-	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_9 | GPIO_Pin_10 | GPIO_Pin_11 | GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15;
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);	
+	
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
 	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
-  GPIO_Init(GPIOB, &GPIO_InitStruct);	
+  GPIO_Init(GPIOA, &GPIO_InitStruct);		
+	
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_9;
+  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
+	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+  GPIO_Init(GPIOB, &GPIO_InitStruct);		
+	
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_14 | GPIO_Pin_15;
+  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
+	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+  GPIO_Init(GPIOC, &GPIO_InitStruct);	
 }
 
 void IO_Trigger_Scan(void)
@@ -61,18 +86,18 @@ void IO_Trigger_Scan(void)
     IO_Trigger_Temp[i]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[i].GPIO,IO_Trigger_GPIO[i].GPIO_Pin)==Tirgger?0x01:0x00);
   }
   
-  if(Device_State==Offline)
-  {
+	if(Device_State == Offline)
+	{
+	  Timer3_Delay_MS(3000); 
     if(IO_Offline_Trigger(Trigger_Temp,IO_Trigger_Temp))
     {
-      Delay_ms(3000);
       for(i=0;i<8;i++)
       {
         IO_Trigger_Temp[i]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[i].GPIO,IO_Trigger_GPIO[i].GPIO_Pin)==Tirgger?0x01:0x00);
       }
       memcpy(Trigger_Temp,IO_Trigger_Temp,4);
     }
-  }
+  }	
 }
 
 

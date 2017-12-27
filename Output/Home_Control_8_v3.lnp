@@ -3,7 +3,6 @@
 "..\output\stm32f0xx_it.o"
 "..\output\bsp_led.o"
 "..\output\bsp_usart.o"
-"..\output\bsp_systick.o"
 "..\output\bsp_crc8.o"
 "..\output\bsp_io.o"
 "..\output\bsp_relay.o"

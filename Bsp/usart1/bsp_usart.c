@@ -6,13 +6,15 @@
 #include "bsp_timer3.h"
 
 uint8_t RS485_Addr=0;
-uint8_t Device_State=Offline;
-GPIO RS485_Addr_GPIO[6] ={{GPIOA, GPIO_Pin_0},
-                          {GPIOA, GPIO_Pin_1},
-                          {GPIOA, GPIO_Pin_2},
-                          {GPIOA, GPIO_Pin_3},
-                          {GPIOA, GPIO_Pin_4},
-                          {GPIOA, GPIO_Pin_5}};
+uint8_t Device_State=Online;
+
+
+GPIO RS485_Addr_GPIO[6] ={{GPIOB, GPIO_Pin_12},
+                          {GPIOB, GPIO_Pin_13},
+                          {GPIOB, GPIO_Pin_14},
+                          {GPIOB, GPIO_Pin_15},
+                          {GPIOA, GPIO_Pin_8},
+                          {GPIOA, GPIO_Pin_11}};
 
 
 
@@ -37,14 +39,14 @@ void USART1_Init(void)
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; 
   GPIO_Init(GPIOA, &GPIO_InitStructure);   
 
-  //RS485_DIR ->PF4	
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-	GPIO_InitStructure.GPIO_PuPd=GPIO_PuPd_NOPULL;
-  GPIO_InitStructure.GPIO_Speed =GPIO_Speed_50MHz;
-  GPIO_Init(GPIOF, &GPIO_InitStructure);
-  GPIO_ResetBits(GPIOA,GPIO_Pin_6);
+//  //RS485_DIR ->PF4	
+//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
+//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
+//  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
+//	GPIO_InitStructure.GPIO_PuPd=GPIO_PuPd_NOPULL;
+//  GPIO_InitStructure.GPIO_Speed =GPIO_Speed_50MHz;
+//  GPIO_Init(GPIOA, &GPIO_InitStructure);
+//  GPIO_ResetBits(GPIOA,GPIO_Pin_6);
 	
   USART_InitStructure.USART_BaudRate = Baud_Rate;//设置串口波特率
   USART_InitStructure.USART_WordLength = USART_WordLength_8b;//设置数据位
@@ -66,12 +68,19 @@ void USART1_Init(void)
 void Addr_Switch_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStruct;
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
 	
-  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5;
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
+	
+  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_8 | GPIO_Pin_11;
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
 	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_Init(GPIOA, &GPIO_InitStruct);	
+	
+  GPIO_InitStruct.GPIO_Pin = GPIO_Pin_12 | GPIO_Pin_13 | GPIO_Pin_14 | GPIO_Pin_15;
+  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
+	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+  GPIO_Init(GPIOB, &GPIO_InitStruct);		
 }
 
 
@@ -97,15 +106,13 @@ void Addr_Switch_Scan(void)
 
 void Analyse_Received_Buffer(uint8_t *Buffer,uint8_t Cnt)
 {
-//  					 USART1_Send_Data(Buffer,Cnt);
-	
 	if(Buffer[3]==RS485_Addr)
   {							
     switch(Buffer[4])
     { 	
     case 0x20:
       Device_State = Online;
-      Timer_Cnt = 0;
+      Device_Online_Count = 6000;//6s
       IO_State_Convert();
       Relay_State_Convert();
       Response_IO_Relay_State(Buffer[4]);
@@ -237,7 +244,7 @@ void USART1_Send_Data(volatile uint8_t *buf,uint8_t len)
 {
   uint8_t i=0;
 
-  GPIO_SetBits(GPIOF,GPIO_Pin_4); //进入发送模式	
+//  GPIO_SetBits(GPIOA,GPIO_Pin_6); //进入发送模式	
 	
 	while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);		
 	for(i=0;i<len;i++)
@@ -246,7 +253,8 @@ void USART1_Send_Data(volatile uint8_t *buf,uint8_t len)
 		
 	 while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);	
   }
-  GPIO_ResetBits(GPIOF,GPIO_Pin_4);	//进入接收模式		
+	
+//  GPIO_ResetBits(GPIOA,GPIO_Pin_6);	//进入接收模式		
 }
 
 void uart_puts(char *s)

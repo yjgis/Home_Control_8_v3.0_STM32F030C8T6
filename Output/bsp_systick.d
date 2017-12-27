@@ -13,3 +13,4 @@
 ..\output\bsp_systick.o: ..\Lib\inc\stm32f0xx_tim.h
 ..\output\bsp_systick.o: ..\Lib\inc\stm32f0xx_usart.h
 ..\output\bsp_systick.o: ..\Lib\inc\stm32f0xx_misc.h
+..\output\bsp_systick.o: ..\Bsp\timer\bsp_timer3.h

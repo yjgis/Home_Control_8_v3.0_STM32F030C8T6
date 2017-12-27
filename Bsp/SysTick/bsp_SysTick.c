@@ -17,7 +17,11 @@
   */
 #include "bsp_SysTick.h"
 
+#include "bsp_timer3.h" 
+
 static __IO uint32_t TimingDelay;
+ 
+
  
 /**
   * @brief  启动系统滴答定时器 SysTick
@@ -68,5 +72,8 @@ void TimingDelay_Decrement(void)
 	{ 
 		TimingDelay--;
 	}
+	
+//  Timer_Cnt++;
+   	
 }
 /*********************************************END OF FILE**********************/

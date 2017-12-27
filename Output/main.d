@@ -14,7 +14,6 @@
 ..\output\main.o: ..\Lib\inc\stm32f0xx_misc.h
 ..\output\main.o: ..\Bsp\Led\bsp_led.h
 ..\output\main.o: ..\Bsp\usart1\bsp_usart.h
-..\output\main.o: ..\Bsp\SysTick\bsp_SysTick.h
 ..\output\main.o: F:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\output\main.o: ..\Bsp\Relay\bsp_relay.h
 ..\output\main.o: ..\Bsp\IO\bsp_io.h

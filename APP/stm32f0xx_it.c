@@ -31,13 +31,14 @@
 #include "stm32f0xx_it.h"
 #include "bsp_usart.h"
 #include "bsp_led.h"
-#include "bsp_SysTick.h"
 #include <string.h>
 #include "bsp_timer3.h"
 
 
 extern Receive Rx;
 extern uint8_t ttt[6];
+
+//uint8_t Buffer[5]={0x01,0x02,0x03,0x04,0x05};
 /** @addtogroup STM32F0-Discovery_Demo
   * @{
   */
@@ -105,20 +106,7 @@ void PendSV_Handler(void)
   */
 void SysTick_Handler(void)
 {
-	TimingDelay_Decrement();	
 }
-
-//void USART1_IRQHandler(void)
-//{
-//	uint8_t ch;
-//  if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
-//  {
-//		ch=USART_ReceiveData(USART1);
-//LED1_Toggle();
-//  }
-//}
-
-
 /******************************************************************************/
 /*                 STM32F0xx Peripherals Interrupt Handlers                   */
 /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */
@@ -134,12 +122,10 @@ void SysTick_Handler(void)
 
 uint8_t rx_temp[20]={0};
 uint8_t rx_cnt=0;
-
 void USART1_IRQHandler(void)
 {
   if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
-  {
-		
+  {		
 		rx_temp[rx_cnt++]=USART_ReceiveData(USART1);
 		
 		 if(rx_temp[0]== 0xad)
@@ -149,11 +135,10 @@ void USART1_IRQHandler(void)
 					memcpy(Rx.Buffer,rx_temp,rx_cnt);
 					Rx.Cont=rx_cnt;
 					Rx.Flag=1;
-					
-//					 USART1_Send_Data(Rx.Buffer,Rx.Cont);
-					
+					 Analyse_Received_Buffer(rx_temp,rx_cnt);	
+					 rx_cnt=0;        
            memset(rx_temp,0,20);
-           rx_cnt=0;              
+      
          }
          else if(rx_cnt > (rx_temp[2]+4))
          {
@@ -167,33 +152,27 @@ void USART1_IRQHandler(void)
          rx_cnt=0;  
       }
 		
-		
-		
-//          ttt[5]=USART_ReceiveData(USART1);
 		 LED1_Toggle();
 // USART1_Send_Data(ttt,6);
   }
 }
 
-
+uint8_t *Timer3_Cnt = 0;
 void TIM3_IRQHandler(void)
 {	
 	if(TIM_GetITStatus(TIM3,TIM_IT_Update)!=RESET)
 	{ 
 	  TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
 		
-		if(Device_State==Online)
-		{
-		  Timer_Cnt++;
-			if(Timer_Cnt>5)
-		  {
-			  Device_State=Offline;
-				Timer_Cnt=0;
-			}
-		}
+    Timer3_Count_Decrement();
+//		USART1_Send_Data(Buffer,5);
+
+//		Timer3_Events();
+		
+		
 	}
-	
-	LED1_Toggle();
+//	
+//	LED1_Toggle();
 }
 
 
