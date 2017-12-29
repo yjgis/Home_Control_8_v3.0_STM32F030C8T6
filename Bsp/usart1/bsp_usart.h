@@ -3,24 +3,26 @@
 
 #include "stm32f0xx.h"
 
-typedef struct
-{
-  uint8_t Flag;
-	uint8_t Buffer[20];
-	uint8_t Cont;
-}Receive;
+#define Mode4
+
+#ifdef Mode4
+ #define Device_Mode 0x04
+#else
+ #define Device_Mode 0x02
+#endif
+
 
 
 #define  Baud_Rate  9600
-#define  Device_Mode 0x04
 #define  Offline     0
 #define  Online      1
 
 extern uint8_t Device_State;
+extern uint16_t Device_Online_Count;
 
 void USART1_Init(void);
-void Addr_Switch_Init(void);
-void Addr_Switch_Scan(void);
+void RS485_Addr_Init(void);
+void RS485_Addr_Scan(void);
 void uart_puts(char *s );
 void uart_putc(unsigned char c);
 void USART1_Send_Data(volatile uint8_t *buf,uint8_t len);

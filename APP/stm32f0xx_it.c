@@ -16,7 +16,7 @@
   * You may not use this file except in compliance with the License.
   * You may obtain a copy of the License at:
   *
-  *        http://www.st.com/software_license_agreement_liberty_v2
+  * http://www.st.com/software_license_agreement_liberty_v2
   *
   * Unless required by applicable law or agreed to in writing, software 
   * distributed under the License is distributed on an "AS IS" BASIS, 
@@ -30,15 +30,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f0xx_it.h"
 #include "bsp_usart.h"
-#include "bsp_led.h"
 #include <string.h>
 #include "bsp_timer3.h"
 
-
-extern Receive Rx;
-extern uint8_t ttt[6];
-
-//uint8_t Buffer[5]={0x01,0x02,0x03,0x04,0x05};
 /** @addtogroup STM32F0-Discovery_Demo
   * @{
   */
@@ -120,77 +114,41 @@ void SysTick_Handler(void)
   * @retval None
   */
 
-uint8_t rx_temp[20]={0};
-uint8_t rx_cnt=0;
+uint8_t Rx_Buffer[20] = {0};
+uint8_t Rx_Cnt = 0;
 void USART1_IRQHandler(void)
 {
   if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET)
   {		
-		rx_temp[rx_cnt++]=USART_ReceiveData(USART1);
-		
-		 if(rx_temp[0]== 0xad)
-     {
-        if(rx_cnt == (rx_temp[2]+4))
-        {			
-					memcpy(Rx.Buffer,rx_temp,rx_cnt);
-					Rx.Cont=rx_cnt;
-					Rx.Flag=1;
-					 Analyse_Received_Buffer(rx_temp,rx_cnt);	
-					 rx_cnt=0;        
-           memset(rx_temp,0,20);
-      
-         }
-         else if(rx_cnt > (rx_temp[2]+4))
-         {
-           rx_cnt=0;
-           memset(rx_temp,0,20);
-         }
-      }        
-      else
-      {
-         memset(rx_temp,0,20);
-         rx_cnt=0;  
+		Rx_Buffer[Rx_Cnt++] = USART_ReceiveData(USART1);		
+		if(Rx_Buffer[0]== 0xad)
+    {
+      if(Rx_Cnt == (Rx_Buffer[2]+4))
+      {			
+			  Analyse_Received_Buffer(Rx_Buffer,Rx_Cnt);	
+			  Rx_Cnt = 0;        
+        memset(Rx_Buffer,0,20);      
       }
-		
-		 LED1_Toggle();
-// USART1_Send_Data(ttt,6);
+      else if(Rx_Cnt > (Rx_Buffer[2]+4))
+      {
+        Rx_Cnt = 0;
+        memset(Rx_Buffer,0,20);
+      }
+    }        
+    else
+    {
+      memset(Rx_Buffer,0,20);
+      Rx_Cnt = 0;  
+    }
   }
 }
 
-uint8_t *Timer3_Cnt = 0;
 void TIM3_IRQHandler(void)
 {	
 	if(TIM_GetITStatus(TIM3,TIM_IT_Update)!=RESET)
 	{ 
-	  TIM_ClearITPendingBit(TIM3,TIM_IT_Update);
-		
-    Timer3_Count_Decrement();
-//		USART1_Send_Data(Buffer,5);
-
-//		Timer3_Events();
-		
-		
+	  TIM_ClearITPendingBit(TIM3,TIM_IT_Update);		
+    Timer3_Count_Decrement();	
 	}
-//	
-//	LED1_Toggle();
 }
-
-
-
-/*void PPP_IRQHandler(void)
-{
-}*/
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-
-
-
-
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

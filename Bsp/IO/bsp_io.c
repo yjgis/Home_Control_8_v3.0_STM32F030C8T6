@@ -3,12 +3,10 @@
 #include "bsp_relay.h"
 #include "string.h"
 #include "bsp_timer3.h"
-//#include "bsp_timer.h"
 
-uint8_t IO_Switch_Temp[8]={0};
-uint8_t IO_Trigger_Temp[8]={0};
+uint8_t IO_Enable_Buffer[8]={0};
+uint8_t IO_Input_Buffer[8]={0};
 uint8_t IO_Temp[2]={0};
-
 
 GPIO IO_Switch_GPIO[8]={{GPIOB, GPIO_Pin_9},
                         {GPIOC, GPIO_Pin_14},
@@ -28,11 +26,26 @@ GPIO IO_Trigger_GPIO[8]={{GPIOA, GPIO_Pin_15},
 												 {GPIOB, GPIO_Pin_8},
                          {GPIOC, GPIO_Pin_13}};
 
-
-												 							 
+/**********************************************************************************
+  * @brief  对输入IO端口进行初始化
+  * @param  None
+  * @retval None
+ *********************************************************************************/												 
 void IO_Init(void)
 {
+  IO_Input_Init();
+  IO_Enable_Init();
+}
+
+/**********************************************************************************
+  * @brief  对输入IO端口进行初始化
+  * @param  None
+  * @retval None
+ *********************************************************************************/	
+void IO_Input_Init(void)
+{
 	GPIO_InitTypeDef GPIO_InitStruct;
+	
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
   RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
@@ -53,9 +66,15 @@ void IO_Init(void)
   GPIO_Init(GPIOC, &GPIO_InitStruct);			
 }
 
-void IO_Switch (void)
+/**********************************************************************************
+  * @brief  IO使能拨码开关初始化
+  * @param  None
+  * @retval None
+ *********************************************************************************/	
+void IO_Enable_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStruct;
+	
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);	
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);	
@@ -76,76 +95,86 @@ void IO_Switch (void)
   GPIO_Init(GPIOC, &GPIO_InitStruct);	
 }
 
-void IO_Trigger_Scan(void)
-{ 
-  uint8_t i=0;	
-  static uint8_t Trigger_Temp[4]={0};
-  
-  for(i=0;i<8;i++)
-  {
-    IO_Trigger_Temp[i]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[i].GPIO,IO_Trigger_GPIO[i].GPIO_Pin)==Tirgger?0x01:0x00);
-  }
-  
-	if(Device_State == Offline)
+/**********************************************************************************
+  * @brief  在线情况下对输入IO的状态进行扫描
+  * @param  None
+  * @retval None
+ *********************************************************************************/	
+void IO_Online_Input_Scan(void)
+{
+  uint8_t Cnt;
+	
+	for(Cnt = 0;Cnt < 8;Cnt++)
 	{
-	  Timer3_Delay_MS(3000); 
-    if(IO_Offline_Trigger(Trigger_Temp,IO_Trigger_Temp))
-    {
-      for(i=0;i<8;i++)
-      {
-        IO_Trigger_Temp[i]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[i].GPIO,IO_Trigger_GPIO[i].GPIO_Pin)==Tirgger?0x01:0x00);
-      }
-      memcpy(Trigger_Temp,IO_Trigger_Temp,4);
-    }
-  }	
+   IO_Input_Buffer[Cnt]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);		
+	}
 }
 
+/**********************************************************************************
+  * @brief  离线情况下对输入IO的状态进行扫描
+  * @param  None
+  * @retval None
+ *********************************************************************************/	
+void IO_Offline_Input_Scan(void)
+{
+  uint8_t Cnt,Temp;
+	
+	for(Cnt = 0;Cnt < 8;Cnt++)
+	{
+   IO_Input_Buffer[Cnt]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);		
+	}	
 
-uint8_t IO_Offline_Trigger(uint8_t *Trigger_Temp1,uint8_t *Trigger_Temp2)
-{ 
-  uint8_t Trigger=0,i=0;
-  for(i=0;i<8;i++)
-  {
-    if(Trigger_Temp1[i]!=Trigger_Temp2[i])
-    {
-      IO_Control_Relay(i);
-      Trigger=1;
-    }  
-  }
-  return Trigger;
+	Timer3_Delay(500); 	
+	
+	for(Cnt = 0;Cnt < 8;Cnt++)
+	{	 
+		Temp = (GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);
+		if(IO_Input_Buffer[Cnt] != Temp)
+		{
+		  IO_Input_Buffer[Cnt] = Temp;
+		  IO_Control_Relay(Cnt);
+		}
+	}
 }
 
-
-void IO_Switch_Scan(void)
+/**********************************************************************************
+  * @brief  对IO使能拨码开关进行扫描
+  * @param  None
+  * @retval None
+ *********************************************************************************/	
+void IO_Enable_Scan(void)
 {  
   uint8_t i=0;
   for(i=0;i<8;i++)
   {
-    IO_Switch_Temp[i]=(GPIO_ReadInputDataBit(IO_Switch_GPIO[i].GPIO,IO_Switch_GPIO[i].GPIO_Pin)==0?0x01:0x00);
+    IO_Enable_Buffer[i]=(GPIO_ReadInputDataBit(IO_Switch_GPIO[i].GPIO,IO_Switch_GPIO[i].GPIO_Pin)==0?0x01:0x00);
   }
 }
 
-
+/**********************************************************************************
+  * @brief  将存储IO输入的数据和IO使能拨码开关的数据转换成发送命令所需要的数据
+  * @param  None
+  * @retval None
+ *********************************************************************************/	
 void IO_State_Convert(void)
 {
-  IO_Temp[0] |=((IO_Switch_Temp[0]==0x01?0x01:0x00)<<1
-               |(IO_Switch_Temp[1]==0x01?0x01:0x00)<<3
-               |(IO_Switch_Temp[2]==0x01?0x01:0x00)<<5
-               |(IO_Switch_Temp[3]==0x01?0x01:0x00)<<7);
+  IO_Temp[0] |=((IO_Enable_Buffer[0]==0x01?0x01:0x00)<<1
+               |(IO_Enable_Buffer[1]==0x01?0x01:0x00)<<3
+               |(IO_Enable_Buffer[2]==0x01?0x01:0x00)<<5
+               |(IO_Enable_Buffer[3]==0x01?0x01:0x00)<<7);
   
-  IO_Temp[1] |=((IO_Switch_Temp[4]==0x01?0x01:0x00)<<1
-               |(IO_Switch_Temp[5]==0x01?0x01:0x00)<<3              
-               |(IO_Switch_Temp[6]==0x01?0x01:0x00)<<5
-               |(IO_Switch_Temp[7]==0x01?0x01:0x00)<<7);
+  IO_Temp[1] |=((IO_Enable_Buffer[4]==0x01?0x01:0x00)<<1
+               |(IO_Enable_Buffer[5]==0x01?0x01:0x00)<<3              
+               |(IO_Enable_Buffer[6]==0x01?0x01:0x00)<<5
+               |(IO_Enable_Buffer[7]==0x01?0x01:0x00)<<7);
 	
-
-  IO_Temp[0] |=((IO_Trigger_Temp[0]==0x01?0x01:0x00)
-               |(IO_Trigger_Temp[1]==0x01?0x01:0x00)<<2
-               |(IO_Trigger_Temp[2]==0x01?0x01:0x00)<<4
-               |(IO_Trigger_Temp[3]==0x01?0x01:0x00)<<6);
+  IO_Temp[0] |=((IO_Input_Buffer[0]==0x01?0x01:0x00)
+               |(IO_Input_Buffer[1]==0x01?0x01:0x00)<<2
+               |(IO_Input_Buffer[2]==0x01?0x01:0x00)<<4
+               |(IO_Input_Buffer[3]==0x01?0x01:0x00)<<6);
   
-  IO_Temp[1] |=((IO_Trigger_Temp[4]==0x01?0x01:0x00)
-               |(IO_Trigger_Temp[5]==0x01?0x01:0x00)<<2
-               |(IO_Trigger_Temp[6]==0x01?0x01:0x00)<<4
-               |(IO_Trigger_Temp[7]==0x01?0x01:0x00)<<6);	
+  IO_Temp[1] |=((IO_Input_Buffer[4]==0x01?0x01:0x00)
+               |(IO_Input_Buffer[5]==0x01?0x01:0x00)<<2
+               |(IO_Input_Buffer[6]==0x01?0x01:0x00)<<4
+               |(IO_Input_Buffer[7]==0x01?0x01:0x00)<<6);	
 }

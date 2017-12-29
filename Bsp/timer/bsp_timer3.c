@@ -3,8 +3,13 @@
 
 
 uint16_t Timing_Count = 0;
-uint16_t Device_Online_Count = 6000;
+uint16_t Device_Online_Count = 0;
 
+/**********************************************************************************
+  * @brief  定时器初始化,开定时器3中断,1ms定时
+  * @param  None 
+  * @retval None
+ *********************************************************************************/	
 void Timer_Init(void)  //1ms
 {
 	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
@@ -32,6 +37,11 @@ void Timer_Init(void)  //1ms
   TIM_Cmd(TIM3, ENABLE);
 }
 
+/**********************************************************************************
+  * @brief  定时器3进入中断后需进行处理的函数
+  * @param  None 
+  * @retval None
+ *********************************************************************************/	
 void Timer3_Count_Decrement(void)
 {
 	Device_State_Judgment();
@@ -42,21 +52,23 @@ void Timer3_Count_Decrement(void)
 	}
 }
 
-void Timer3_Timing_Sec(uint8_t Timing_Sec)
-{
-   Timing_Count =  Timing_Sec * 1000;
-
-   while(Timing_Count);
-}
-
-
-void Timer3_Delay_MS(uint16_t Delay_ms)  //1ms
+/**********************************************************************************
+  * @brief  基于Timer3的1ms延时
+  * @param  Delay_ms--延时的时间 
+  * @retval None
+ *********************************************************************************/	
+void Timer3_Delay(uint16_t Delay_ms)  //1ms
 {
   Timing_Count = Delay_ms;
                 
 	while(Timing_Count);
 }	
 
+/**********************************************************************************
+  * @brief  对前置模块离线或者在线状态进行判断处理
+  * @param  None
+  * @retval None
+ *********************************************************************************/	
 void Device_State_Judgment(void)
 {
    if(Device_State == Online && Device_Online_Count)

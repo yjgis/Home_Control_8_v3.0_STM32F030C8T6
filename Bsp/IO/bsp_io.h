@@ -12,16 +12,17 @@ typedef struct IO
 
 #define Tirgger        0
 
-extern uint8_t IO_Switch_Temp[8];
+extern uint8_t IO_Enable_Buffer[8];
 extern uint8_t IO_Temp[2];
 
-void IO_Init(void);
-void IO_Switch(void);
-void Addr_Switch_Scan(void);
-void IO_Trigger_Scan(void);
-void IO_Switch_Scan(void);
-void IO_State_Convert(void);
-uint8_t IO_Offline_Trigger(uint8_t *Trigger_Temp1,uint8_t *Trigger_Temp2);
 
+void IO_Init(void);
+void IO_Input_Init(void);
+void IO_Enable_Init(void);
+void IO_Enable_Scan(void);
+void IO_Input_Scan(void);
+void IO_Online_Input_Scan(void);
+void IO_Offline_Input_Scan(void);		
+void IO_State_Convert(void);
 #endif
 

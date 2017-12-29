@@ -7,10 +7,9 @@
 												 RELAY
 								    	B0 B1 B10 11
 **********************************************************/
-
 uint8_t Relay_Temp[4]={0};
 uint8_t Relay_State=0;
-
+uint8_t tnbm =0 ;
 
 
 
@@ -22,19 +21,39 @@ GPIO Relay_GPIO[4] ={{GPIOB, GPIO_Pin_0},
 
 
 
-
+/**********************************************************************************
+  * @brief  打开继电器
+  * @param  GPIO------继电器所在引脚的端口号
+						GPIO_Pin--继电器所在引脚的引脚号
+						Num-------需要打开的继电器的编号				 
+  * @retval None
+ *********************************************************************************/	
 void Turn_ON_Relay(GPIO_TypeDef* GPIO,uint16_t GPIO_Pin,uint8_t Num)
 {
 	GPIO_SetBits(GPIO,GPIO_Pin);
   Relay_Temp[Num]=0x01;
 }
 
+/**********************************************************************************
+  * @brief  关闭继电器
+  * @param  GPIO------继电器所在引脚的端口号
+						GPIO_Pin--继电器所在引脚的引脚号
+						Num-------需要关闭的继电器的编号				 
+  * @retval None
+ *********************************************************************************/	
 void Turn_OFF_Relay(GPIO_TypeDef* GPIO,uint16_t GPIO_Pin,uint8_t Num)
 {
 	GPIO_ResetBits(GPIO,GPIO_Pin);
   Relay_Temp[Num]=0x00;
 }
 
+/**********************************************************************************
+  * @brief  翻转继电器
+  * @param  GPIO------继电器所在引脚的端口号
+						GPIO_Pin--继电器所在引脚的引脚号
+						Num-------需要翻转的继电器的编号				 
+  * @retval None
+ *********************************************************************************/	
 void Turn_Toggle_Relay(GPIO_TypeDef* GPIO,uint16_t GPIO_Pin,uint8_t Num)
 {
   if(Relay_Temp[Num]==0x01)
@@ -47,17 +66,21 @@ void Turn_Toggle_Relay(GPIO_TypeDef* GPIO,uint16_t GPIO_Pin,uint8_t Num)
   }
 }
 
-
+/**********************************************************************************
+  * @brief  继电器引脚的初始化(关)
+  * @param  None		 
+  * @retval None
+ *********************************************************************************/	
 void Relay_Init(void)
 {
 	uint8_t i=0;
 	GPIO_InitTypeDef GPIO_InitStruct;
 	
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
 	
   GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_10 | GPIO_Pin_11;
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_OUT;
-//  GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
+  GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_InitStruct.GPIO_Speed =GPIO_Speed_Level_3;
   GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -68,9 +91,11 @@ void Relay_Init(void)
   }
 }
 
-
-
-
+/**********************************************************************************
+  * @brief  通过RS485串口数据对继电器进行控制
+  * @param  Cmd_Temp--通过RS485传过来的控制命令		 
+  * @retval None
+ *********************************************************************************/	
 void Cmd_Control_Relay(uint8_t *Cmd_Temp)
 {	
   switch(Cmd_Temp[5])
@@ -113,6 +138,7 @@ void Cmd_Control_Relay(uint8_t *Cmd_Temp)
       break;
     }
     break;
+#ifdef Mode4	
   case 0x03:
     switch(Cmd_Temp[6])
     {
@@ -146,27 +172,64 @@ void Cmd_Control_Relay(uint8_t *Cmd_Temp)
     case 0x03:
       Turn_Toggle_Relay(Relay_GPIO[3].GPIO,Relay_GPIO[3].GPIO_Pin,3);    
       break;
-      
     default:
       break;
     }
     break;
-    
+#endif         
   default:
     break;
   }
   
 }
 
+/**********************************************************************************
+  * @brief  离线情况下通过IO引脚对继电器进行控制
+  * @param  Num--需要控制的继电器的编号		 
+  * @retval None
+ *********************************************************************************/	
 void IO_Control_Relay(uint8_t Num)
 {
-  if(IO_Switch_Temp[Num]==0x01)
-  {
-    Turn_Toggle_Relay(Relay_GPIO[Num].GPIO,Relay_GPIO[Num].GPIO_Pin,Num);
-  }
+  switch(Num)
+	{
+		case 0x00:
+			if(IO_Enable_Buffer[0] == 0x01)
+			{
+				Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);
+			}			
+		break;
+	
+		case 0x01:
+			if(IO_Enable_Buffer[1] == 0x01)
+			{
+				Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,1);
+			}				
+		break;
+#ifdef Mode4			
+		case 0x02:
+			if(IO_Enable_Buffer[2] == 0x01)
+			{
+				Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,2);
+			}				
+		break;	
+		
+		case 0x03:
+			if(IO_Enable_Buffer[3] == 0x01)
+			{
+				Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,3);
+			}				
+		break;	
+#endif		
+	  default:
+			break;
+	}
 }
 
-
+/**********************************************************************************
+  * @brief  将存储在数组中的继电器状态转化成数据发送时所需要的数据
+  * @param  None	 
+  * @retval None
+ *********************************************************************************/	
 void Relay_State_Convert(void)
 {
   Relay_State=(Relay_Temp[0] == 0x01?0x02:0x01)

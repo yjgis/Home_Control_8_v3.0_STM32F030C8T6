@@ -6,7 +6,7 @@
 #include "bsp_timer3.h"
 
 uint8_t RS485_Addr=0;
-uint8_t Device_State=Online;
+uint8_t Device_State=Offline;
 
 
 GPIO RS485_Addr_GPIO[6] ={{GPIOB, GPIO_Pin_12},
@@ -18,7 +18,11 @@ GPIO RS485_Addr_GPIO[6] ={{GPIOB, GPIO_Pin_12},
 
 
 
-
+/**********************************************************************************
+  * @brief  USART1初始化
+  * @param  None
+  * @retval None
+ *********************************************************************************/
 void USART1_Init(void)
 {	
 	GPIO_InitTypeDef   GPIO_InitStructure;
@@ -38,15 +42,6 @@ void USART1_Init(void)
   GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz; 
   GPIO_Init(GPIOA, &GPIO_InitStructure);   
-
-//  //RS485_DIR ->PF4	
-//	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_6;
-//  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-//  GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-//	GPIO_InitStructure.GPIO_PuPd=GPIO_PuPd_NOPULL;
-//  GPIO_InitStructure.GPIO_Speed =GPIO_Speed_50MHz;
-//  GPIO_Init(GPIOA, &GPIO_InitStructure);
-//  GPIO_ResetBits(GPIOA,GPIO_Pin_6);
 	
   USART_InitStructure.USART_BaudRate = Baud_Rate;//设置串口波特率
   USART_InitStructure.USART_WordLength = USART_WordLength_8b;//设置数据位
@@ -65,7 +60,12 @@ void USART1_Init(void)
 	NVIC_Init(&NVIC_InitStructure);
 }
 
-void Addr_Switch_Init(void)
+/**********************************************************************************
+  * @brief  RS485地址初始化
+  * @param  None
+  * @retval None
+ *********************************************************************************/
+void RS485_Addr_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStruct;
 	
@@ -83,8 +83,12 @@ void Addr_Switch_Init(void)
   GPIO_Init(GPIOB, &GPIO_InitStruct);		
 }
 
-
-void Addr_Switch_Scan(void)
+/**********************************************************************************
+  * @brief  RS485地址拨码开关扫描
+  * @param  None
+  * @retval None
+ *********************************************************************************/
+void RS485_Addr_Scan(void)
 {
 	uint8_t i=0;
   for(i=0;i<6;i++)
@@ -100,10 +104,12 @@ void Addr_Switch_Scan(void)
   }
 }
 
-
-
-
-
+/**********************************************************************************
+  * @brief  解析USART1接收到的命令
+  * @param  Buffer--接收到命令的数组
+  *         Cnt-----接收到的命令数组的长度
+  * @retval None
+ *********************************************************************************/
 void Analyse_Received_Buffer(uint8_t *Buffer,uint8_t Cnt)
 {
 	if(Buffer[3]==RS485_Addr)
@@ -128,9 +134,13 @@ void Analyse_Received_Buffer(uint8_t *Buffer,uint8_t Cnt)
   {
     Response_RS485_Adrress(Buffer[3],Buffer[4]); 
   } 		
-
 }
 
+/**********************************************************************************
+  * @brief  回复接收到的查询状态命令
+  * @param  cmd--查询的命令字
+  * @retval None
+ *********************************************************************************/
 void Response_IO_Relay_State(uint8_t cmd)
 {
   uint8_t Send_Temp[15]={0};
@@ -169,12 +179,22 @@ void Response_IO_Relay_State(uint8_t cmd)
   USART1_Send_Data(Send_Temp,10);
 }
 
+/**********************************************************************************
+  * @brief  对接收到的控制命令进行处理
+  * @param  Cmd_Temp--存贮控制命令的数组
+  * @retval None
+ *********************************************************************************/
 void UART_Cmd_Control_Relay(uint8_t *Cmd_Temp)
 {
   Cmd_Control_Relay(Cmd_Temp); 
   Response_Cmd_Control_Msg(Cmd_Temp[4]);
 }
 
+/**********************************************************************************
+  * @brief  回复接收到的控制继电器的命令
+  * @param  cmd--控制的命令字
+  * @retval None
+ *********************************************************************************/
 void Response_Cmd_Control_Msg(uint8_t cmd)
 {
   uint8_t Send_Temp[15]={0};
@@ -204,6 +224,11 @@ void Response_Cmd_Control_Msg(uint8_t cmd)
   USART1_Send_Data(Send_Temp,7);
 }
 
+/**********************************************************************************
+  * @brief  回复接收到的查询RS485地址的命令
+  * @param  cmd--地址查询的命令字
+  * @retval None
+ *********************************************************************************/
 void Response_RS485_Adrress(uint8_t addr,uint8_t cmd)
 {
   uint8_t Send_Temp[15]={0};
@@ -236,25 +261,23 @@ void Response_RS485_Adrress(uint8_t addr,uint8_t cmd)
   USART1_Send_Data(Send_Temp,8);
 }
 
-
-
-
-
-void USART1_Send_Data(volatile uint8_t *buf,uint8_t len)
+/**********************************************************************************
+  * @brief  RS485通过USART1发送命令
+  * @param  Send_Buffer--需要发送的数据
+  *         Send_Num-----需要发送数据的长度
+  * @retval None
+ *********************************************************************************/
+void USART1_Send_Data(volatile uint8_t *Send_Buffer,uint8_t Send_Num)
 {
-  uint8_t i=0;
-
-//  GPIO_SetBits(GPIOA,GPIO_Pin_6); //进入发送模式	
+  uint8_t Send_Cnt = 0;
 	
 	while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);		
-	for(i=0;i<len;i++)
+	for(Send_Cnt = 0;Send_Cnt < Send_Num;Send_Cnt++)
 	{
-   USART_SendData(USART1,buf[i]);
+   USART_SendData(USART1,Send_Buffer[Send_Cnt]);
 		
 	 while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);	
   }
-	
-//  GPIO_ResetBits(GPIOA,GPIO_Pin_6);	//进入接收模式		
 }
 
 void uart_puts(char *s)

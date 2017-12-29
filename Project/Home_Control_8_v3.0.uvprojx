@@ -369,7 +369,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F0XX,</Define>
               <Undefine></Undefine>
-              <IncludePath>..\APP;..\Bsp;..\Lib\inc;..\Lib\src;..\Bsp\Led;..\Bsp\SysTick;..\Bsp\usart1;..\Bsp\crc;..\Bsp\IO;..\Bsp\Relay;..\Bsp\timer</IncludePath>
+              <IncludePath>..\APP;..\Bsp;..\Lib\inc;..\Lib\src;..\Bsp\SysTick;..\Bsp\usart1;..\Bsp\crc;..\Bsp\IO;..\Bsp\Relay;..\Bsp\timer;..\Bsp\Iwdg</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -438,16 +438,6 @@
           <GroupName>Bsp</GroupName>
           <Files>
             <File>
-              <FileName>bsp_led.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Bsp\Led\bsp_led.c</FilePath>
-            </File>
-            <File>
-              <FileName>bsp_led.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Bsp\Led\bsp_led.h</FilePath>
-            </File>
-            <File>
               <FileName>bsp_usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Bsp\usart1\bsp_usart.c</FilePath>
@@ -496,6 +486,16 @@
               <FileName>bsp_timer3.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Bsp\timer\bsp_timer3.h</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_iwdg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Bsp\Iwdg\bsp_iwdg.c</FilePath>
+            </File>
+            <File>
+              <FileName>bsp_iwdg.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Bsp\Iwdg\bsp_iwdg.h</FilePath>
             </File>
           </Files>
         </Group>

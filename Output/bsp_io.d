@@ -9,6 +9,7 @@
 ..\output\bsp_io.o: ..\APP\stm32f0xx_conf.h
 ..\output\bsp_io.o: ..\Lib\inc\stm32f0xx_gpio.h
 ..\output\bsp_io.o: F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include\stm32f0xx.h
+..\output\bsp_io.o: ..\Lib\inc\stm32f0xx_iwdg.h
 ..\output\bsp_io.o: ..\Lib\inc\stm32f0xx_rcc.h
 ..\output\bsp_io.o: ..\Lib\inc\stm32f0xx_tim.h
 ..\output\bsp_io.o: ..\Lib\inc\stm32f0xx_usart.h

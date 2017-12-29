@@ -8,13 +8,14 @@
 ..\output\main.o: ..\APP\stm32f0xx_conf.h
 ..\output\main.o: ..\Lib\inc\stm32f0xx_gpio.h
 ..\output\main.o: F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include\stm32f0xx.h
+..\output\main.o: ..\Lib\inc\stm32f0xx_iwdg.h
 ..\output\main.o: ..\Lib\inc\stm32f0xx_rcc.h
 ..\output\main.o: ..\Lib\inc\stm32f0xx_tim.h
 ..\output\main.o: ..\Lib\inc\stm32f0xx_usart.h
 ..\output\main.o: ..\Lib\inc\stm32f0xx_misc.h
-..\output\main.o: ..\Bsp\Led\bsp_led.h
 ..\output\main.o: ..\Bsp\usart1\bsp_usart.h
-..\output\main.o: F:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\output\main.o: ..\Bsp\Relay\bsp_relay.h
 ..\output\main.o: ..\Bsp\IO\bsp_io.h
 ..\output\main.o: ..\Bsp\timer\bsp_timer3.h
+..\output\main.o: ..\Bsp\Iwdg\bsp_iwdg.h
+..\output\main.o: F:\Program Files\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
