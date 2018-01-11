@@ -118,7 +118,7 @@ void Analyse_Received_Buffer(uint8_t *Buffer,uint8_t Cnt)
     { 	
     case 0x20:
       Device_State = Online;
-      Device_Online_Count = 6000;//6s
+      Device_Online_Count = 20000;//6s
       IO_State_Convert();
       Relay_State_Convert();
       Response_IO_Relay_State(Buffer[4]);
@@ -187,7 +187,8 @@ void Response_IO_Relay_State(uint8_t cmd)
 void UART_Cmd_Control_Relay(uint8_t *Cmd_Temp)
 {
   Cmd_Control_Relay(Cmd_Temp); 
-  Response_Cmd_Control_Msg(Cmd_Temp[4]);
+//  Response_Cmd_Control_Msg(Cmd_Temp[4]);
+  Response_Cmd_Control_Msg(Cmd_Temp[5]);	
 }
 
 /**********************************************************************************

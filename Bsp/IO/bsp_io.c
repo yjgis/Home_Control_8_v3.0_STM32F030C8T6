@@ -6,6 +6,7 @@
 
 uint8_t IO_Enable_Buffer[8]={0};
 uint8_t IO_Input_Buffer[8]={0};
+
 uint8_t IO_Temp[2]={0};
 
 GPIO IO_Switch_GPIO[8]={{GPIOB, GPIO_Pin_9},
@@ -117,24 +118,62 @@ void IO_Online_Input_Scan(void)
  *********************************************************************************/	
 void IO_Offline_Input_Scan(void)
 {
-  uint8_t Cnt,Temp;
-	
-	for(Cnt = 0;Cnt < 8;Cnt++)
-	{
-   IO_Input_Buffer[Cnt]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);		
-	}	
+  uint8_t Cnt = 0,Temp1 = 0,Temp2 = 0;
 
-	Timer3_Delay(500); 	
-	
-	for(Cnt = 0;Cnt < 8;Cnt++)
-	{	 
-		Temp = (GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);
-		if(IO_Input_Buffer[Cnt] != Temp)
+  for(Cnt = 0;Cnt < 8;Cnt++)
+	{		
+//   IO_Input_Buffer[Cnt]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);
+		Temp1 = (GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);			
+	  Timer3_Delay(10);
+		Temp2 = (GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);
+			
+		
+		if(Temp1 == Temp2)
 		{
-		  IO_Input_Buffer[Cnt] = Temp;
-		  IO_Control_Relay(Cnt);
+		  if(IO_Input_Buffer[Cnt] != Temp2)
+			{
+		    IO_Control_Relay(Cnt);					
+			  Timer3_Delay(200);
+        IO_Input_Buffer[Cnt]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);				
+			}
 		}
+		
+//		if(Temp1 != IO_Input_Buffer[Cnt])
+//		{
+////			Temp = Temp2;
+//			Timer3_Delay(100);
+//			Temp3 = (GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);
+////			Timer3_Delay(10);
+////			Temp4 = (GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);			
+//     
+//      if(Temp3 != Temp1)
+//			{
+//		    IO_Control_Relay(Cnt);				
+//			}				
+//		}
+//		IO_Input_Buffer[Cnt] = Temp4;
 	}
+	
+//	Timer3_Delay(50); 	
+//	
+//	for(Cnt = 0;Cnt < 8;Cnt++)
+	
+	
+//	{
+//   IO_Input_Buffer[Cnt]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);		
+//	}	
+
+//	Timer3_Delay(50); 	
+//	
+//	for(Cnt = 0;Cnt < 8;Cnt++)
+//	{	 
+//		Temp = (GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);
+//		if(IO_Input_Buffer[Cnt] != Temp)
+//		{
+//		  IO_Input_Buffer[Cnt] = Temp;
+//		  IO_Control_Relay(Cnt);
+//		}
+//	}
 }
 
 /**********************************************************************************
