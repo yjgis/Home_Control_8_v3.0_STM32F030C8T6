@@ -8,7 +8,6 @@
 uint8_t RS485_Addr=0;
 uint8_t Device_State=Offline;
 
-
 GPIO RS485_Addr_GPIO[6] ={{GPIOA, GPIO_Pin_11},
                           {GPIOA, GPIO_Pin_8},
                           {GPIOB, GPIO_Pin_15},
@@ -112,6 +111,9 @@ void RS485_Addr_Scan(void)
  *********************************************************************************/
 void Analyse_Received_Buffer(uint8_t *Buffer,uint8_t Cnt)
 {
+	if(CRC8_Check(Cnt-1-3,Buffer+3) != Buffer[Cnt-1])
+		 return ;
+	
 	if(Buffer[3]==RS485_Addr)
   {							
     switch(Buffer[4])
@@ -133,7 +135,7 @@ void Analyse_Received_Buffer(uint8_t *Buffer,uint8_t Cnt)
   else if(Buffer[3] == 0xff && Buffer[4] == 0xf0)
   {
     Response_RS485_Adrress(Buffer[3],Buffer[4]); 
-  } 		
+  } 
 }
 
 /**********************************************************************************

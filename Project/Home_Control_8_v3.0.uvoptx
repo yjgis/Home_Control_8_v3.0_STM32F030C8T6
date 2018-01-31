@@ -166,56 +166,30 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>103</LineNumber>
+          <LineNumber>124</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134220144</Address>
+          <Address>134218918</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\Moonlight\Desktop\鍓嶇疆妯″潡\Home_Control_8_v3.0_STM32F030C8T6-\Bsp\IO\bsp_io.c</Filename>
+          <Filename>..\Bsp\usart1\bsp_usart.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Home_Control_8_v3\../Bsp/IO/bsp_io.c\103</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>106</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134220176</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>C:\Users\Moonlight\Desktop\鍓嶇疆妯″潡\Home_Control_8_v3.0_STM32F030C8T6-\Bsp\IO\bsp_io.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Home_Control_8_v3\../Bsp/IO/bsp_io.c\106</Expression>
+          <Expression>\\Home_Control_8_v3\../Bsp/usart1/bsp_usart.c\124</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>IO_Switch_Temp</ItemText>
+          <ItemText>sett</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>1</WinNumber>
-          <ItemText>IO_Trigger_Temp</ItemText>
-        </Ww>
-        <Ww>
-          <count>2</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>Trigger_Temp</ItemText>
-        </Ww>
-        <Ww>
-          <count>3</count>
-          <WinNumber>1</WinNumber>
-          <ItemText>tnbm</ItemText>
+          <ItemText>set</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
