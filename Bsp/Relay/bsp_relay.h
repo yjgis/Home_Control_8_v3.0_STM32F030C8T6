@@ -4,14 +4,6 @@
 #include "stm32f0xx.h"
 
 
-#ifdef Mode4
- #define Relay_Num   4
-#else
- #define Relay_Num   2
-#endif
-
-
-
 extern uint8_t Relay_State;
 
 void Relay_Init(void);

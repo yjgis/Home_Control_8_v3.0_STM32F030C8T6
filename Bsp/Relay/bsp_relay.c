@@ -138,7 +138,6 @@ void Cmd_Control_Relay(uint8_t *Cmd_Temp)
       break;
     }
     break;
-#ifdef Mode4	
   case 0x03:
     switch(Cmd_Temp[6])
     {
@@ -176,11 +175,9 @@ void Cmd_Control_Relay(uint8_t *Cmd_Temp)
       break;
     }
     break;
-#endif         
   default:
     break;
   }
-  
 }
 
 /**********************************************************************************
@@ -190,38 +187,38 @@ void Cmd_Control_Relay(uint8_t *Cmd_Temp)
  *********************************************************************************/	
 void IO_Control_Relay(uint8_t Num)
 {
-  switch(Num)
-	{
-		case 0x00:
-			if(IO_Enable_Buffer[0] == 0x01)
-			{
-				Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);
-			}			
-		break;
-	
-		case 0x01:
-			if(IO_Enable_Buffer[1] == 0x01)
-			{
-				Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,1);
-			}				
-		break;
-#ifdef Mode4			
-		case 0x02:
-			if(IO_Enable_Buffer[2] == 0x01)
-			{
-				Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,2);
-			}				
-		break;	
-		
-		case 0x03:
-			if(IO_Enable_Buffer[3] == 0x01)
-			{
-				Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,3);
-			}				
-		break;	
-#endif		
-	  default:
+  if(Num < Device_Mode)
+	{		
+		switch(Num)
+		{
+			case 0x00:
+				if(IO_Enable_Buffer[0] == 0x01)
+				{
+					Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);
+				}			
 			break;
+			case 0x01:
+				if(IO_Enable_Buffer[1] == 0x01)
+				{
+					Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,1);
+				}				
+			break;		
+			case 0x02:
+				if(IO_Enable_Buffer[2] == 0x01)
+				{
+					Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,2);
+				}				
+			break;		
+			case 0x03:
+				if(IO_Enable_Buffer[3] == 0x01)
+				{
+					Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,3);
+				}				
+			break;	
+
+			default:
+				break;
+		}
 	}
 }
 

@@ -1,5 +1,5 @@
 Dependencies for Project 'Home_Control_8_v3.0', Target 'Target 1': (DO NOT MODIFY !)
-F (..\APP\main.c)(0x5A56CA21)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork --split_sections -I..\APP -I..\Bsp -I..\Lib\inc -I..\Lib\src -I..\Bsp\SysTick -I..\Bsp\usart1 -I..\Bsp\crc -I..\Bsp\IO -I..\Bsp\Relay -I..\Bsp\timer -I..\Bsp\Iwdg-I C:\Users\Moonlight\Desktop\MoonlightShadow1-Home_Control_8_v3.0_STM32F030C8T6-\Project\RTE-I "F:\Program Files\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include"-I "F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="515" -D_RTE_ -DSTM32F030 -DUSE_STDPERIPH_DRIVER -DSTM32F0XX-o ..\output\main.o --omf_browse ..\output\main.crf --depend ..\output\main.d)
+F (..\APP\main.c)(0x5A71945D)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork --split_sections -I..\APP -I..\Bsp -I..\Lib\inc -I..\Lib\src -I..\Bsp\SysTick -I..\Bsp\usart1 -I..\Bsp\crc -I..\Bsp\IO -I..\Bsp\Relay -I..\Bsp\timer -I..\Bsp\Iwdg-I C:\Users\Moonlight\Desktop\MoonlightShadow1-Home_Control_8_v3.0_STM32F030C8T6-\Project\RTE-I "F:\Program Files\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include"-I "F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="515" -D_RTE_ -DSTM32F030 -DUSE_STDPERIPH_DRIVER -DSTM32F0XX-o ..\output\main.o --omf_browse ..\output\main.crf --depend ..\output\main.d)
 I (F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include\stm32f0xx.h)(0x548E991E)
 I (F:\Program Files\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cm0.h)(0x55093C04)
 I (F:\Program Files\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54C245B8)
@@ -13,8 +13,8 @@ I (..\Lib\inc\stm32f0xx_rcc.h)(0x5A56C832)
 I (..\Lib\inc\stm32f0xx_tim.h)(0x5A56C832)
 I (..\Lib\inc\stm32f0xx_usart.h)(0x5A56C832)
 I (..\Lib\inc\stm32f0xx_misc.h)(0x5A56C832)
-I (..\Bsp\usart1\bsp_usart.h)(0x5A56C832)
-I (..\Bsp\Relay\bsp_relay.h)(0x5A56C832)
+I (..\Bsp\usart1\bsp_usart.h)(0x5A71945D)
+I (..\Bsp\Relay\bsp_relay.h)(0x5A719323)
 I (..\Bsp\IO\bsp_io.h)(0x5A5F1EC5)
 I (..\Bsp\timer\bsp_timer3.h)(0x5A56C832)
 I (..\Bsp\Iwdg\bsp_iwdg.h)(0x5A56C832)
@@ -35,12 +35,12 @@ I (..\Lib\inc\stm32f0xx_rcc.h)(0x5A56C832)
 I (..\Lib\inc\stm32f0xx_tim.h)(0x5A56C832)
 I (..\Lib\inc\stm32f0xx_usart.h)(0x5A56C832)
 I (..\Lib\inc\stm32f0xx_misc.h)(0x5A56C832)
-I (..\Bsp\usart1\bsp_usart.h)(0x5A56C832)
+I (..\Bsp\usart1\bsp_usart.h)(0x5A71945D)
 I (F:\Program Files\Keil_v5\ARM\ARMCC\include\string.h)(0x54C245B8)
 I (..\Bsp\timer\bsp_timer3.h)(0x5A56C832)
 F (..\APP\stm32f0xx_it.h)(0x5A56C832)()
-F (..\Bsp\usart1\bsp_usart.c)(0x5A718052)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork --split_sections -I..\APP -I..\Bsp -I..\Lib\inc -I..\Lib\src -I..\Bsp\SysTick -I..\Bsp\usart1 -I..\Bsp\crc -I..\Bsp\IO -I..\Bsp\Relay -I..\Bsp\timer -I..\Bsp\Iwdg-I C:\Users\Moonlight\Desktop\MoonlightShadow1-Home_Control_8_v3.0_STM32F030C8T6-\Project\RTE-I "F:\Program Files\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include"-I "F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="515" -D_RTE_ -DSTM32F030 -DUSE_STDPERIPH_DRIVER -DSTM32F0XX-o ..\output\bsp_usart.o --omf_browse ..\output\bsp_usart.crf --depend ..\output\bsp_usart.d)
-I (..\Bsp\usart1\bsp_usart.h)(0x5A56C832)
+F (..\Bsp\usart1\bsp_usart.c)(0x5A7195E7)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork --split_sections -I..\APP -I..\Bsp -I..\Lib\inc -I..\Lib\src -I..\Bsp\SysTick -I..\Bsp\usart1 -I..\Bsp\crc -I..\Bsp\IO -I..\Bsp\Relay -I..\Bsp\timer -I..\Bsp\Iwdg-I C:\Users\Moonlight\Desktop\MoonlightShadow1-Home_Control_8_v3.0_STM32F030C8T6-\Project\RTE-I "F:\Program Files\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include"-I "F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="515" -D_RTE_ -DSTM32F030 -DUSE_STDPERIPH_DRIVER -DSTM32F0XX-o ..\output\bsp_usart.o --omf_browse ..\output\bsp_usart.crf --depend ..\output\bsp_usart.d)
+I (..\Bsp\usart1\bsp_usart.h)(0x5A71945D)
 I (F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include\stm32f0xx.h)(0x548E991E)
 I (F:\Program Files\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cm0.h)(0x55093C04)
 I (F:\Program Files\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54C245B8)
@@ -56,10 +56,10 @@ I (..\Lib\inc\stm32f0xx_usart.h)(0x5A56C832)
 I (..\Lib\inc\stm32f0xx_misc.h)(0x5A56C832)
 I (..\Bsp\crc\bsp_crc8.h)(0x5A56C832)
 I (..\Bsp\IO\bsp_io.h)(0x5A5F1EC5)
-I (..\Bsp\Relay\bsp_relay.h)(0x5A56C832)
+I (..\Bsp\Relay\bsp_relay.h)(0x5A719323)
 I (F:\Program Files\Keil_v5\ARM\ARMCC\include\string.h)(0x54C245B8)
 I (..\Bsp\timer\bsp_timer3.h)(0x5A56C832)
-F (..\Bsp\usart1\bsp_usart.h)(0x5A56C832)()
+F (..\Bsp\usart1\bsp_usart.h)(0x5A71945D)()
 F (..\Bsp\crc\bsp_crc8.c)(0x5A718204)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork --split_sections -I..\APP -I..\Bsp -I..\Lib\inc -I..\Lib\src -I..\Bsp\SysTick -I..\Bsp\usart1 -I..\Bsp\crc -I..\Bsp\IO -I..\Bsp\Relay -I..\Bsp\timer -I..\Bsp\Iwdg-I C:\Users\Moonlight\Desktop\MoonlightShadow1-Home_Control_8_v3.0_STM32F030C8T6-\Project\RTE-I "F:\Program Files\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include"-I "F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="515" -D_RTE_ -DSTM32F030 -DUSE_STDPERIPH_DRIVER -DSTM32F0XX-o ..\output\bsp_crc8.o --omf_browse ..\output\bsp_crc8.crf --depend ..\output\bsp_crc8.d)
 I (..\Bsp\crc\bsp_crc8.h)(0x5A56C832)
 I (F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include\stm32f0xx.h)(0x548E991E)
@@ -91,13 +91,13 @@ I (..\Lib\inc\stm32f0xx_rcc.h)(0x5A56C832)
 I (..\Lib\inc\stm32f0xx_tim.h)(0x5A56C832)
 I (..\Lib\inc\stm32f0xx_usart.h)(0x5A56C832)
 I (..\Lib\inc\stm32f0xx_misc.h)(0x5A56C832)
-I (..\Bsp\usart1\bsp_usart.h)(0x5A56C832)
-I (..\Bsp\Relay\bsp_relay.h)(0x5A56C832)
+I (..\Bsp\usart1\bsp_usart.h)(0x5A71945D)
+I (..\Bsp\Relay\bsp_relay.h)(0x5A719323)
 I (F:\Program Files\Keil_v5\ARM\ARMCC\include\string.h)(0x54C245B8)
 I (..\Bsp\timer\bsp_timer3.h)(0x5A56C832)
 F (..\Bsp\IO\bsp_io.h)(0x5A5F1EC5)()
-F (..\Bsp\Relay\bsp_relay.c)(0x5A5DA941)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork --split_sections -I..\APP -I..\Bsp -I..\Lib\inc -I..\Lib\src -I..\Bsp\SysTick -I..\Bsp\usart1 -I..\Bsp\crc -I..\Bsp\IO -I..\Bsp\Relay -I..\Bsp\timer -I..\Bsp\Iwdg-I C:\Users\Moonlight\Desktop\MoonlightShadow1-Home_Control_8_v3.0_STM32F030C8T6-\Project\RTE-I "F:\Program Files\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include"-I "F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="515" -D_RTE_ -DSTM32F030 -DUSE_STDPERIPH_DRIVER -DSTM32F0XX-o ..\output\bsp_relay.o --omf_browse ..\output\bsp_relay.crf --depend ..\output\bsp_relay.d)
-I (..\Bsp\Relay\bsp_relay.h)(0x5A56C832)
+F (..\Bsp\Relay\bsp_relay.c)(0x5A719292)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork --split_sections -I..\APP -I..\Bsp -I..\Lib\inc -I..\Lib\src -I..\Bsp\SysTick -I..\Bsp\usart1 -I..\Bsp\crc -I..\Bsp\IO -I..\Bsp\Relay -I..\Bsp\timer -I..\Bsp\Iwdg-I C:\Users\Moonlight\Desktop\MoonlightShadow1-Home_Control_8_v3.0_STM32F030C8T6-\Project\RTE-I "F:\Program Files\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include"-I "F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="515" -D_RTE_ -DSTM32F030 -DUSE_STDPERIPH_DRIVER -DSTM32F0XX-o ..\output\bsp_relay.o --omf_browse ..\output\bsp_relay.crf --depend ..\output\bsp_relay.d)
+I (..\Bsp\Relay\bsp_relay.h)(0x5A719323)
 I (F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include\stm32f0xx.h)(0x548E991E)
 I (F:\Program Files\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include\core_cm0.h)(0x55093C04)
 I (F:\Program Files\Keil_v5\ARM\ARMCC\include\stdint.h)(0x54C245B8)
@@ -113,8 +113,8 @@ I (..\Lib\inc\stm32f0xx_usart.h)(0x5A56C832)
 I (..\Lib\inc\stm32f0xx_misc.h)(0x5A56C832)
 I (..\Bsp\IO\bsp_io.h)(0x5A5F1EC5)
 I (F:\Program Files\Keil_v5\ARM\ARMCC\include\string.h)(0x54C245B8)
-I (..\Bsp\usart1\bsp_usart.h)(0x5A56C832)
-F (..\Bsp\Relay\bsp_relay.h)(0x5A56C832)()
+I (..\Bsp\usart1\bsp_usart.h)(0x5A71945D)
+F (..\Bsp\Relay\bsp_relay.h)(0x5A719323)()
 F (..\Bsp\timer\bsp_timer3.c)(0x5A56C832)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork --split_sections -I..\APP -I..\Bsp -I..\Lib\inc -I..\Lib\src -I..\Bsp\SysTick -I..\Bsp\usart1 -I..\Bsp\crc -I..\Bsp\IO -I..\Bsp\Relay -I..\Bsp\timer -I..\Bsp\Iwdg-I C:\Users\Moonlight\Desktop\MoonlightShadow1-Home_Control_8_v3.0_STM32F030C8T6-\Project\RTE-I "F:\Program Files\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include"-I "F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="515" -D_RTE_ -DSTM32F030 -DUSE_STDPERIPH_DRIVER -DSTM32F0XX-o ..\output\bsp_timer3.o --omf_browse ..\output\bsp_timer3.crf --depend ..\output\bsp_timer3.d)
 I (..\Bsp\timer\bsp_timer3.h)(0x5A56C832)
 I (F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include\stm32f0xx.h)(0x548E991E)
@@ -130,7 +130,7 @@ I (..\Lib\inc\stm32f0xx_rcc.h)(0x5A56C832)
 I (..\Lib\inc\stm32f0xx_tim.h)(0x5A56C832)
 I (..\Lib\inc\stm32f0xx_usart.h)(0x5A56C832)
 I (..\Lib\inc\stm32f0xx_misc.h)(0x5A56C832)
-I (..\Bsp\usart1\bsp_usart.h)(0x5A56C832)
+I (..\Bsp\usart1\bsp_usart.h)(0x5A71945D)
 F (..\Bsp\timer\bsp_timer3.h)(0x5A56C832)()
 F (..\Bsp\Iwdg\bsp_iwdg.c)(0x5A56C832)(-c --cpu Cortex-M0 -g -O0 --apcs=interwork --split_sections -I..\APP -I..\Bsp -I..\Lib\inc -I..\Lib\src -I..\Bsp\SysTick -I..\Bsp\usart1 -I..\Bsp\crc -I..\Bsp\IO -I..\Bsp\Relay -I..\Bsp\timer -I..\Bsp\Iwdg-I C:\Users\Moonlight\Desktop\MoonlightShadow1-Home_Control_8_v3.0_STM32F030C8T6-\Project\RTE-I "F:\Program Files\Keil_v5\ARM\PACK\ARM\CMSIS\4.3.0\CMSIS\Include"-I "F:\Program Files\Keil_v5\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include"-D__UVISION_VERSION="515" -D_RTE_ -DSTM32F030 -DUSE_STDPERIPH_DRIVER -DSTM32F0XX-o ..\output\bsp_iwdg.o --omf_browse ..\output\bsp_iwdg.crf --depend ..\output\bsp_iwdg.d)
 I (..\Bsp\Iwdg\bsp_iwdg.h)(0x5A56C832)

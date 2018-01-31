@@ -5,8 +5,9 @@
 #include <string.h>
 #include "bsp_timer3.h"
 
-uint8_t RS485_Addr=0;
-uint8_t Device_State=Offline;
+uint8_t RS485_Addr = 0;
+uint8_t Device_State = Offline;
+uint8_t Device_Mode = 0x04;  //前置模块工作在几路输出的模式下，也即使用了几个继电器
 
 GPIO RS485_Addr_GPIO[6] ={{GPIOA, GPIO_Pin_11},
                           {GPIOA, GPIO_Pin_8},
@@ -188,9 +189,11 @@ void Response_IO_Relay_State(uint8_t cmd)
  *********************************************************************************/
 void UART_Cmd_Control_Relay(uint8_t *Cmd_Temp)
 {
-  Cmd_Control_Relay(Cmd_Temp); 
-//  Response_Cmd_Control_Msg(Cmd_Temp[4]);
-  Response_Cmd_Control_Msg(Cmd_Temp[5]);	
+ if(Cmd_Temp[5] <= Device_Mode)
+ {	
+   Cmd_Control_Relay(Cmd_Temp); 	 
+   Response_Cmd_Control_Msg(Cmd_Temp[5]);	
+ }
 }
 
 /**********************************************************************************

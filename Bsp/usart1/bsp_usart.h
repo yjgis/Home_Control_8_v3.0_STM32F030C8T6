@@ -3,20 +3,13 @@
 
 #include "stm32f0xx.h"
 
-#define Mode4
-
-#ifdef Mode4
- #define Device_Mode 0x04
-#else
- #define Device_Mode 0x02
-#endif
-
 
 
 #define  Baud_Rate  9600
 #define  Offline     0
 #define  Online      1
 
+extern uint8_t Device_Mode;
 extern uint8_t Device_State;
 extern uint16_t Device_Online_Count;
 
