@@ -9,23 +9,23 @@ uint8_t IO_Input_Buffer[8]={0};
 
 uint8_t IO_Temp[2]={0};
 
-GPIO IO_Switch_GPIO[8]={{GPIOB, GPIO_Pin_9},
-                        {GPIOC, GPIO_Pin_14},
-                        {GPIOC, GPIO_Pin_15},
-                        {GPIOA, GPIO_Pin_7},
-                        {GPIOA, GPIO_Pin_6},
-												{GPIOA, GPIO_Pin_5},
-												{GPIOA, GPIO_Pin_4},
-                        {GPIOA, GPIO_Pin_3}};
+GPIO IO_Switch_GPIO[8]={{GPIOC, GPIO_Pin_14},
+                        {GPIOC, GPIO_Pin_13},
+                        {GPIOB, GPIO_Pin_4},
+                        {GPIOB, GPIO_Pin_5},
+                        {GPIOB, GPIO_Pin_9},
+												{GPIOB, GPIO_Pin_8},
+												{GPIOB, GPIO_Pin_3},
+                        {GPIOA, GPIO_Pin_15}};
 
-GPIO IO_Trigger_GPIO[8]={{GPIOA, GPIO_Pin_15},
-                         {GPIOB, GPIO_Pin_3},
-                         {GPIOB, GPIO_Pin_4},
-                         {GPIOB, GPIO_Pin_5},
-                         {GPIOB, GPIO_Pin_6},
-												 {GPIOB, GPIO_Pin_7},
-												 {GPIOB, GPIO_Pin_8},
-                         {GPIOC, GPIO_Pin_13}};
+GPIO IO_Trigger_GPIO[8]={{GPIOB, GPIO_Pin_10},
+                         {GPIOB, GPIO_Pin_11},
+                         {GPIOB, GPIO_Pin_1},
+                         {GPIOA, GPIO_Pin_7},
+                         {GPIOB, GPIO_Pin_0},
+												 {GPIOA, GPIO_Pin_6},
+												 {GPIOA, GPIO_Pin_5},
+                         {GPIOA, GPIO_Pin_4}};
 
 /**********************************************************************************
   * @brief  对输入IO端口进行初始化
@@ -49,22 +49,22 @@ void IO_Input_Init(void)
 	
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
-  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
+//  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
 	
-	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_15;
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5| GPIO_Pin_6 | GPIO_Pin_7;
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
 	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_Init(GPIOA, &GPIO_InitStruct);		
 	
-	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5| GPIO_Pin_6 | GPIO_Pin_7 | GPIO_Pin_8;
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_10 | GPIO_Pin_11;
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
 	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_Init(GPIOB, &GPIO_InitStruct);	
 	
-	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_13;
-  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
-	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
-  GPIO_Init(GPIOC, &GPIO_InitStruct);			
+//	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_13;
+//  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
+//	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
+//  GPIO_Init(GPIOC, &GPIO_InitStruct);			
 }
 
 /**********************************************************************************
@@ -80,20 +80,30 @@ void IO_Enable_Init(void)
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);	
 	
-	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_15;
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
 	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_Init(GPIOA, &GPIO_InitStruct);		
 	
-	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_9;
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_4 | GPIO_Pin_5 | GPIO_Pin_8 | GPIO_Pin_9;
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
 	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_Init(GPIOB, &GPIO_InitStruct);		
 	
-	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_14 | GPIO_Pin_15;
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_13 | GPIO_Pin_14;
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
 	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_Init(GPIOC, &GPIO_InitStruct);	
+}
+
+void IO_Input_Scan(void)
+{
+  uint8_t Cnt;
+	
+	for(Cnt = 0;Cnt < 8;Cnt++)
+	{
+   IO_Input_Buffer[Cnt]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);		
+	}
 }
 
 /**********************************************************************************
@@ -137,43 +147,7 @@ void IO_Offline_Input_Scan(void)
         IO_Input_Buffer[Cnt]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);				
 			}
 		}
-		
-//		if(Temp1 != IO_Input_Buffer[Cnt])
-//		{
-////			Temp = Temp2;
-//			Timer3_Delay(100);
-//			Temp3 = (GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);
-////			Timer3_Delay(10);
-////			Temp4 = (GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);			
-//     
-//      if(Temp3 != Temp1)
-//			{
-//		    IO_Control_Relay(Cnt);				
-//			}				
-//		}
-//		IO_Input_Buffer[Cnt] = Temp4;
-	}
-	
-//	Timer3_Delay(50); 	
-//	
-//	for(Cnt = 0;Cnt < 8;Cnt++)
-	
-	
-//	{
-//   IO_Input_Buffer[Cnt]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);		
-//	}	
-
-//	Timer3_Delay(50); 	
-//	
-//	for(Cnt = 0;Cnt < 8;Cnt++)
-//	{	 
-//		Temp = (GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);
-//		if(IO_Input_Buffer[Cnt] != Temp)
-//		{
-//		  IO_Input_Buffer[Cnt] = Temp;
-//		  IO_Control_Relay(Cnt);
-//		}
-//	}
+   }
 }
 
 /**********************************************************************************

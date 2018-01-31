@@ -9,12 +9,12 @@ uint8_t RS485_Addr=0;
 uint8_t Device_State=Offline;
 
 
-GPIO RS485_Addr_GPIO[6] ={{GPIOB, GPIO_Pin_12},
-                          {GPIOB, GPIO_Pin_13},
-                          {GPIOB, GPIO_Pin_14},
-                          {GPIOB, GPIO_Pin_15},
+GPIO RS485_Addr_GPIO[6] ={{GPIOA, GPIO_Pin_11},
                           {GPIOA, GPIO_Pin_8},
-                          {GPIOA, GPIO_Pin_11}};
+                          {GPIOB, GPIO_Pin_15},
+                          {GPIOB, GPIO_Pin_14},
+                          {GPIOB, GPIO_Pin_13},
+                          {GPIOB, GPIO_Pin_12}};
 
 
 
