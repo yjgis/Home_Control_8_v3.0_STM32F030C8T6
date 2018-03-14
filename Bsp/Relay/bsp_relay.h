@@ -11,7 +11,6 @@ void Relay_Init(void);
 void Cmd_Control_Relay(uint8_t *Cmd_Temp);
 
 void Relay_State_Convert(void);
-//void GPIO_SetBits(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin)
 void Turn_ON_Relay(GPIO_TypeDef* GPIO,uint16_t GPIO_Pin,uint8_t Num);
 void Turn_OFF_Relay(GPIO_TypeDef* GPIO,uint16_t GPIO_Pin,uint8_t Num);
 void Turn_Toggle_Relay(GPIO_TypeDef* GPIO,uint16_t GPIO_Pin,uint8_t Num);

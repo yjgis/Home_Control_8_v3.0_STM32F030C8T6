@@ -4,10 +4,12 @@
 #include "string.h"
 #include "bsp_timer3.h"
 
-uint8_t IO_Enable_Buffer[8]={0};
-uint8_t IO_Input_Buffer[8]={0};
+uint8_t IO_Enable_Buffer[8]={0};          //存储IO使能的拨码开关标志
+uint8_t IO_Input_Buffer[8]={0};           //存储IO是否被触发的标志
+uint8_t IO_Input_Temp[8]={0};             //存储IO临时数据
+uint8_t IO_Temp[2]={0};                   //存储转化为2个字节的IO触发和IO使能标志
+uint8_t IO_Input_Lock[8] = {0};           //锁存IO触发标志，当触发标志被网关读走后，解锁
 
-uint8_t IO_Temp[2]={0};
 
 GPIO IO_Switch_GPIO[8]={{GPIOC, GPIO_Pin_14},
                         {GPIOC, GPIO_Pin_13},
@@ -49,7 +51,6 @@ void IO_Input_Init(void)
 	
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
-//  RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
 	
 	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_4 | GPIO_Pin_5| GPIO_Pin_6 | GPIO_Pin_7;
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
@@ -60,11 +61,6 @@ void IO_Input_Init(void)
   GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
 	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
   GPIO_Init(GPIOB, &GPIO_InitStruct);	
-	
-//	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_13;
-//  GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IN ;
-//	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_UP;
-//  GPIO_Init(GPIOC, &GPIO_InitStruct);			
 }
 
 /**********************************************************************************
@@ -99,12 +95,14 @@ void IO_Enable_Init(void)
 void IO_Input_Scan(void)
 {
   uint8_t Cnt;
-	
-	for(Cnt = 0;Cnt < 8;Cnt++)
-	{
-   IO_Input_Buffer[Cnt]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);		
-	}
+
+		for(Cnt = 0;Cnt < 8;Cnt++)
+		{
+		  IO_Input_Buffer[Cnt]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);		
+		}
 }
+
+
 
 /**********************************************************************************
   * @brief  在线情况下对输入IO的状态进行扫描
@@ -113,14 +111,24 @@ void IO_Input_Scan(void)
  *********************************************************************************/	
 void IO_Online_Input_Scan(void)
 {
-  uint8_t Cnt;
+  uint8_t Cnt = 0,temp1 = 0,temp2 = 0;
 	
 	for(Cnt = 0;Cnt < 8;Cnt++)
 	{
-   IO_Input_Buffer[Cnt]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);		
+		temp1 = (GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);			
+	  Timer3_Delay(10);
+		temp2 = (GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);		
+		
+		if(temp1 == temp2)
+		{
+		  if((temp1 != IO_Input_Buffer[Cnt]) && (!IO_Input_Lock[Cnt]))
+			{
+				IO_Input_Lock[Cnt] = 1;
+			  IO_Input_Buffer[Cnt] = temp1;	
+			}		
+		}			
 	}
 }
-
 /**********************************************************************************
   * @brief  离线情况下对输入IO的状态进行扫描
   * @param  None
@@ -132,7 +140,6 @@ void IO_Offline_Input_Scan(void)
 
   for(Cnt = 0;Cnt < 8;Cnt++)
 	{		
-//   IO_Input_Buffer[Cnt]=(GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);
 		Temp1 = (GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);			
 	  Timer3_Delay(10);
 		Temp2 = (GPIO_ReadInputDataBit(IO_Trigger_GPIO[Cnt].GPIO,IO_Trigger_GPIO[Cnt].GPIO_Pin)==Tirgger?0x01:0x00);
@@ -161,7 +168,7 @@ void IO_Enable_Scan(void)
   for(i=0;i<8;i++)
   {
     IO_Enable_Buffer[i]=(GPIO_ReadInputDataBit(IO_Switch_GPIO[i].GPIO,IO_Switch_GPIO[i].GPIO_Pin)==0?0x01:0x00);
-  }
+  } 
 }
 
 /**********************************************************************************

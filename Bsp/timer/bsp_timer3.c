@@ -59,8 +59,7 @@ void Timer3_Count_Decrement(void)
  *********************************************************************************/	
 void Timer3_Delay(uint16_t Delay_ms)  //1ms
 {
-  Timing_Count = Delay_ms;
-                
+  Timing_Count = Delay_ms;              
 	while(Timing_Count);
 }	
 
@@ -77,7 +76,7 @@ void Device_State_Judgment(void)
 	 }
 	 else
 	 {
-	  Device_State = Offline;	 
+	   Device_State = Offline;	 
 	 }
 }
 

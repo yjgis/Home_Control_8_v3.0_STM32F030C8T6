@@ -35,11 +35,11 @@ int main(void)
     IO_Enable_Scan();		
 		if(Device_State == Online)
 		{
-		 IO_Online_Input_Scan();
+		  IO_Online_Input_Scan();
 		}
 		else
 		{
-		 IO_Offline_Input_Scan();		
+		  IO_Offline_Input_Scan();
 		}
 		IWDG_Feed();
 	}

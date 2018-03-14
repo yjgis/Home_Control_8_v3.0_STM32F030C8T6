@@ -7,13 +7,15 @@
 
 uint8_t RS485_Addr = 0;
 uint8_t Device_State = Offline;
-uint8_t Device_Mode = 0x04;  //前置模块工作在几路输出的模式下，也即使用了几个继电器
+uint8_t Device_Mode = 0x04;  //前置模块工作在几路输出的模式下，也即使用了几个继电器,目前支持5中类型：
+                             //没有继电器--0x00,一路继电器--0x01,两路继电器--0x02,三路继电器--0x03,四路继电器--0x04
+
 
 GPIO RS485_Addr_GPIO[6] ={{GPIOA, GPIO_Pin_11},
                           {GPIOA, GPIO_Pin_8},
                           {GPIOB, GPIO_Pin_15},
                           {GPIOB, GPIO_Pin_14},
-                          {GPIOB, GPIO_Pin_13},
+                          {GPIOB, GPIO_Pin_13},												
                           {GPIOB, GPIO_Pin_12}};
 
 
@@ -50,6 +52,7 @@ void USART1_Init(void)
   USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;//设置流控制
   USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;//设置工作模式
   USART_Init(USART1, &USART_InitStructure); //配置入结构体	
+	
 	
   USART_ITConfig(USART1,USART_IT_RXNE,ENABLE);			
   USART_Cmd(USART1, ENABLE);
@@ -112,7 +115,7 @@ void RS485_Addr_Scan(void)
  *********************************************************************************/
 void Analyse_Received_Buffer(uint8_t *Buffer,uint8_t Cnt)
 {
-	if(CRC8_Check(Cnt-1-3,Buffer+3) != Buffer[Cnt-1])
+	if(CRC8_Check(Cnt-1,Buffer) != Buffer[Cnt-1])
 		 return ;
 	
 	if(Buffer[3]==RS485_Addr)
@@ -125,9 +128,9 @@ void Analyse_Received_Buffer(uint8_t *Buffer,uint8_t Cnt)
       IO_State_Convert();
       Relay_State_Convert();
       Response_IO_Relay_State(Buffer[4]);
-      memset(IO_Temp,0,2);	
-      break;
-      
+      memset(IO_Temp,0,2);
+      memset(IO_Input_Lock,0,8);
+      break;      
     case 0x60: 
       UART_Cmd_Control_Relay(Buffer);						
       break;
@@ -280,9 +283,8 @@ void USART1_Send_Data(volatile uint8_t *Send_Buffer,uint8_t Send_Num)
 	while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);		
 	for(Send_Cnt = 0;Send_Cnt < Send_Num;Send_Cnt++)
 	{
-   USART_SendData(USART1,Send_Buffer[Send_Cnt]);
-		
-	 while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);	
+    USART_SendData(USART1,Send_Buffer[Send_Cnt]);
+	  while (USART_GetFlagStatus(USART1, USART_FLAG_TC) == RESET);	
   }
 }
 

@@ -13,11 +13,10 @@ uint8_t tnbm =0 ;
 
 
 
-GPIO Relay_GPIO[4] ={{GPIOA, GPIO_Pin_0},
-                     {GPIOA, GPIO_Pin_1},
+GPIO Relay_GPIO[4] ={{GPIOA, GPIO_Pin_3},
                      {GPIOA, GPIO_Pin_2},
-                     {GPIOA, GPIO_Pin_3}};
-
+                     {GPIOA, GPIO_Pin_1},
+                     {GPIOA, GPIO_Pin_0}};
 
 
 
@@ -103,76 +102,77 @@ void Cmd_Control_Relay(uint8_t *Cmd_Temp)
   case 0x01:
     switch(Cmd_Temp[6])
     {
-    case 0x00:
-      break;
-    case 0x01:
-      Turn_OFF_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);
-      break;
-    case 0x02:
-      Turn_ON_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);
-      break;
-    case 0x03:
-      Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);     
-      break;
-      
-    default:
-      break;
+			case 0x00:
+				break;
+			case 0x01:
+				Turn_OFF_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);
+				break;
+			case 0x02:
+				Turn_ON_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);
+				break;
+			case 0x03:
+				Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);     
+				break;
+				
+			default:
+				break;
     }
     break;
   case 0x02:
     switch(Cmd_Temp[6])
     {
-    case 0x00:
-      break;
-    case 0x01:
-      Turn_OFF_Relay(Relay_GPIO[1].GPIO,Relay_GPIO[1].GPIO_Pin,1);
-      break;
-    case 0x02:
-      Turn_ON_Relay(Relay_GPIO[1].GPIO,Relay_GPIO[1].GPIO_Pin,1);      
-      break;
-    case 0x03:
-      Turn_Toggle_Relay(Relay_GPIO[1].GPIO,Relay_GPIO[1].GPIO_Pin,1);   
-      break;
-      
-    default:
-      break;
+			case 0x00:
+				break;
+			case 0x01:
+				Turn_OFF_Relay(Relay_GPIO[1].GPIO,Relay_GPIO[1].GPIO_Pin,1);
+				break;
+			case 0x02:
+				Turn_ON_Relay(Relay_GPIO[1].GPIO,Relay_GPIO[1].GPIO_Pin,1);      
+				break;
+			case 0x03:
+				Turn_Toggle_Relay(Relay_GPIO[1].GPIO,Relay_GPIO[1].GPIO_Pin,1);   
+				break;
+				
+			default:
+				break;
     }
     break;
   case 0x03:
     switch(Cmd_Temp[6])
     {
-    case 0x00:
-      break;
-    case 0x01:
-      Turn_OFF_Relay(Relay_GPIO[2].GPIO,Relay_GPIO[2].GPIO_Pin,2);
-      break;
-    case 0x02:
-      Turn_ON_Relay(Relay_GPIO[2].GPIO,Relay_GPIO[2].GPIO_Pin,2);
-      break;
-    case 0x03:
-      Turn_Toggle_Relay(Relay_GPIO[2].GPIO,Relay_GPIO[2].GPIO_Pin,2);  
-      break;
-      
-    default:
-      break;
+			case 0x00:
+				break;
+			case 0x01:
+				Turn_OFF_Relay(Relay_GPIO[2].GPIO,Relay_GPIO[2].GPIO_Pin,2);
+				break;
+			case 0x02:
+				Turn_ON_Relay(Relay_GPIO[2].GPIO,Relay_GPIO[2].GPIO_Pin,2);
+				break;
+			case 0x03:
+				Turn_Toggle_Relay(Relay_GPIO[2].GPIO,Relay_GPIO[2].GPIO_Pin,2);  
+				break;
+				
+			default:
+				break;
     }
     break;
   case 0x04:
     switch(Cmd_Temp[6])
     {
-    case 0x00:
-      break;
-    case 0x01:
-      Turn_OFF_Relay(Relay_GPIO[3].GPIO,Relay_GPIO[3].GPIO_Pin,3);
-      break;
-    case 0x02:
-      Turn_ON_Relay(Relay_GPIO[3].GPIO,Relay_GPIO[3].GPIO_Pin,3);      
-      break;
-    case 0x03:
-      Turn_Toggle_Relay(Relay_GPIO[3].GPIO,Relay_GPIO[3].GPIO_Pin,3);    
-      break;
-    default:
-      break;
+			case 0x00:
+				break;
+			case 0x01:
+				Turn_OFF_Relay(Relay_GPIO[3].GPIO,Relay_GPIO[3].GPIO_Pin,3);
+				break;
+			case 0x02:
+				Turn_ON_Relay(Relay_GPIO[3].GPIO,Relay_GPIO[3].GPIO_Pin,3);      
+				break;
+			case 0x03:
+				Turn_Toggle_Relay(Relay_GPIO[3].GPIO,Relay_GPIO[3].GPIO_Pin,3);    
+				break;
+			
+			default:
+				break;
     }
     break;
   default:
@@ -196,25 +196,25 @@ void IO_Control_Relay(uint8_t Num)
 				{
 					Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);
 				}			
-			break;
+			  break;
 			case 0x01:
 				if(IO_Enable_Buffer[1] == 0x01)
 				{
 					Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,1);
 				}				
-			break;		
+		  	break;		
 			case 0x02:
 				if(IO_Enable_Buffer[2] == 0x01)
 				{
 					Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,2);
 				}				
-			break;		
+			  break;		
 			case 0x03:
 				if(IO_Enable_Buffer[3] == 0x01)
 				{
 					Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,3);
 				}				
-			break;	
+			  break;	
 
 			default:
 				break;

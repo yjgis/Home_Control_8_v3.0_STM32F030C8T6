@@ -14,6 +14,7 @@ typedef struct IO
 
 extern uint8_t IO_Enable_Buffer[8];
 extern uint8_t IO_Temp[2];
+extern uint8_t IO_Input_Lock[8];
 
 
 void IO_Init(void);
@@ -24,5 +25,6 @@ void IO_Input_Scan(void);
 void IO_Online_Input_Scan(void);
 void IO_Offline_Input_Scan(void);		
 void IO_State_Convert(void);
+
 #endif
 
