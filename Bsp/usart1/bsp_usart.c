@@ -3,12 +3,11 @@
 #include "bsp_io.h"
 #include "bsp_relay.h"
 #include <string.h>
-#include "bsp_timer3.h"
 
 uint8_t RS485_Addr = 0;
 uint8_t Device_State = Offline;
-uint8_t Device_Mode = 0x04;  //前置模块工作在几路输出的模式下，也即使用了几个继电器,目前支持5中类型：
-                             //没有继电器--0x00,一路继电器--0x01,两路继电器--0x02,三路继电器--0x03,四路继电器--0x04
+uint8_t Device_Mode = 0x00;  //前置模块工作在几路输出的模式下，也即使用了几个继电器,目前支持5中类型：
+                             //没有继电器--0x00,一路继电器--0x01,两路继电器--0x02,三路继电器--0x03
 
 
 GPIO RS485_Addr_GPIO[6] ={{GPIOA, GPIO_Pin_11},
