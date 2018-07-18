@@ -2,14 +2,14 @@
 #include "bsp_io.h"
 #include "string.h"
 #include "bsp_usart.h"
-
+#include "bsp_timer3.h"
 /**********************************************************
 												 RELAY
 								    	B0 B1 B10 11
 **********************************************************/
 uint8_t Relay_Temp[4]={0};
 uint8_t Relay_State=0;
-
+uint8_t IO_Offline_Triggle_Times[2] = {0};
 
 
 GPIO Relay_GPIO[3] ={{GPIOA, GPIO_Pin_2},
@@ -163,8 +163,59 @@ void Cmd_Control_Relay(uint8_t *Cmd_Temp)
   * @retval None
  *********************************************************************************/	
 void IO_Control_Relay(uint8_t Num)
-{
-  if(Num < Device_Mode)
+{	
+	if((Device_Mode == 0xAA) && (Num < 0x02))
+	{	
+		switch(Num)
+		{
+			case 0x00:
+				if(IO_Enable_Buffer[0] == 0x01)
+				{
+					if(IO_Offline_Triggle_Times[0] == 0)
+					{
+						Turn_OFF_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);
+						Timer3_Delay(50);
+						Turn_OFF_Relay(Relay_GPIO[1].GPIO,Relay_GPIO[1].GPIO_Pin,1);
+						Timer3_Delay(50);
+						Turn_ON_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);
+            IO_Offline_Triggle_Times[0]++;
+					}
+					else
+					{
+						Turn_OFF_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);
+						Timer3_Delay(50);
+						Turn_OFF_Relay(Relay_GPIO[1].GPIO,Relay_GPIO[1].GPIO_Pin,1);
+            IO_Offline_Triggle_Times[0]	= 0;					
+					}
+				}			
+				break;
+			case 0x01:
+				if(IO_Enable_Buffer[1] == 0x01)
+				{
+					if(IO_Offline_Triggle_Times[1] == 0)
+					{
+						Turn_OFF_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);
+						Timer3_Delay(50);
+						Turn_OFF_Relay(Relay_GPIO[1].GPIO,Relay_GPIO[1].GPIO_Pin,1);
+						Timer3_Delay(50);
+						Turn_ON_Relay(Relay_GPIO[1].GPIO,Relay_GPIO[1].GPIO_Pin,1);
+            IO_Offline_Triggle_Times[1]++;
+					}
+					else
+					{
+						Turn_OFF_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);
+						Timer3_Delay(50);
+						Turn_OFF_Relay(Relay_GPIO[1].GPIO,Relay_GPIO[1].GPIO_Pin,1);
+            IO_Offline_Triggle_Times[1]	= 0;					
+					}
+				}				
+				break;
+
+			default:
+       break;				
+		  }
+		}
+	if((Device_Mode != 0xAA) && (Num < Device_Mode))
 	{		
 		switch(Num)
 		{
@@ -189,6 +240,32 @@ void IO_Control_Relay(uint8_t Num)
 			default:
 				break;
 		}
+	
+//	if((Device_Mode == 0xAA && Num < 0x02) ||(Device_Mode != 0xAA && Num < Device_Mode))
+//	{		
+//		switch(Num)
+//		{
+//			case 0x00:
+//				if(IO_Enable_Buffer[0] == 0x01)
+//				{
+//					Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,0);
+//				}			
+//			  break;
+//			case 0x01:
+//				if(IO_Enable_Buffer[1] == 0x01)
+//				{
+//					Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,1);
+//				}				
+//		  	break;		
+//			case 0x02:
+//				if(IO_Enable_Buffer[2] == 0x01)
+//				{
+//					Turn_Toggle_Relay(Relay_GPIO[0].GPIO,Relay_GPIO[0].GPIO_Pin,2);
+//				}				
+//			  break;		
+//			default:
+//				break;
+//		}
 	}
 }
 

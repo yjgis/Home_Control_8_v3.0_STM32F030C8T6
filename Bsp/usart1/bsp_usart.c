@@ -6,7 +6,7 @@
 
 uint8_t RS485_Addr = 0;
 uint8_t Device_State = Offline;
-uint8_t Device_Mode = 0x00;  //前置模块工作在几路输出的模式下，也即使用了几个继电器,目前支持5中类型：
+uint8_t Device_Mode = 0xAA;  //前置模块工作在几路输出的模式下，也即使用了几个继电器,目前支持5中类型：
                              //没有继电器--0x00,一路继电器--0x01,两路继电器--0x02,三路继电器--0x03
 
 
@@ -27,6 +27,7 @@ GPIO RS485_Addr_GPIO[6] ={{GPIOA, GPIO_Pin_11},
 void USART1_Init(void)
 {	
 	GPIO_InitTypeDef   GPIO_InitStructure;
+	
 	USART_InitTypeDef  USART_InitStructure;
 	NVIC_InitTypeDef   NVIC_InitStructure;
 
@@ -191,11 +192,20 @@ void Response_IO_Relay_State(uint8_t cmd)
  *********************************************************************************/
 void UART_Cmd_Control_Relay(uint8_t *Cmd_Temp)
 {
- if(Cmd_Temp[5] <= Device_Mode)
- {	
+	if((Device_Mode == 0xAA && (Cmd_Temp[5] <= 0x02)) || (Device_Mode != 0xAA && Cmd_Temp[5] <= Device_Mode))
+	{
    Cmd_Control_Relay(Cmd_Temp); 	 
-   Response_Cmd_Control_Msg(Cmd_Temp[5]);	
- }
+   Response_Cmd_Control_Msg(Cmd_Temp[5]);			
+	}
+
+
+	
+	
+// if(Cmd_Temp[5] <= Device_Mode)
+// {	
+//   Cmd_Control_Relay(Cmd_Temp); 	 
+//   Response_Cmd_Control_Msg(Cmd_Temp[5]);	
+// }
 }
 
 /**********************************************************************************

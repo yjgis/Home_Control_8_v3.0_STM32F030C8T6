@@ -1,9 +1,10 @@
 ..\output\main.o: ..\APP\main.c
 ..\output\main.o: D:\Keil_v514\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include\stm32f0xx.h
-..\output\main.o: D:\Keil_v514\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include\core_cm0.h
+..\output\main.o: D:\Keil_v514\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\core_cm0.h
 ..\output\main.o: D:\Keil_v514\ARM\ARMCC\Bin\..\include\stdint.h
-..\output\main.o: D:\Keil_v514\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include\core_cmInstr.h
-..\output\main.o: D:\Keil_v514\ARM\PACK\ARM\CMSIS\4.2.0\CMSIS\Include\core_cmFunc.h
+..\output\main.o: D:\Keil_v514\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_version.h
+..\output\main.o: D:\Keil_v514\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_compiler.h
+..\output\main.o: D:\Keil_v514\ARM\PACK\ARM\CMSIS\5.3.0\CMSIS\Include\cmsis_armcc.h
 ..\output\main.o: D:\Keil_v514\ARM\PACK\Keil\STM32F0xx_DFP\1.4.0\Device\Include\system_stm32f0xx.h
 ..\output\main.o: ..\APP\stm32f0xx_conf.h
 ..\output\main.o: ..\Lib\inc\stm32f0xx_gpio.h
